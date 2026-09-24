@@ -87,7 +87,7 @@ flowchart TD
 - [x] **Phase 3 — Travel Data Ingestion** (Idempotent multi-format pipeline for PDF, HTML, JSON, CSV, API; SHA-256 provenance)
 - [x] **Phase 4 — Production RAG** (Structure-aware chunking, embeddings, Qdrant hybrid retrieval, reranking, citations, POST /rag/query)
 - [x] **Phase 5 — Neo4j Knowledge Graph** (12 entity types, schema constraints, multi-hop Cypher traversals, in-memory graph fallback, API endpoints, CLI sync runner)
-- [ ] **Phase 6 — GraphRAG** (Entity-guided graph traversal + semantic vector fusion reranking)
+- [x] **Phase 6 — GraphRAG** (Entity extraction, Knowledge Graph subgraph traversal, Qdrant vector fusion, grounded generation, POST /graphrag/query)
 - [ ] **Phase 7 — Travel ML** (LightGBM flight ranker, fare intelligence, SHAP explainability)
 - [ ] **Phase 8 — Agentic AI** (LangGraph state machine: Orchestrator, Search, Policy, Booking nodes)
 - [ ] **Phase 9 — Human-in-the-Loop** (Strict confirmation checkpoints for booking/cancellation/rebooking)
@@ -161,4 +161,18 @@ flowchart TD
    - Trigger graph sync via REST:
      ```bash
      curl -X POST http://localhost:8000/api/v1/graph/sync
+     ```
+
+6. **GraphRAG Intelligence Query & Diagnostic Explain:**
+   - Execute grounded GraphRAG query:
+     ```bash
+     curl -X POST http://localhost:8000/api/v1/graphrag/query \
+       -H "Content-Type: application/json" \
+       -d '{"query": "What is the cancellation policy and fee for Air India flight AI915?", "flight_number": "AI915"}'
+     ```
+   - Inspect GraphRAG diagnostic breakdown (entities, graph facts, and retrieved vector chunks):
+     ```bash
+     curl -X POST http://localhost:8000/api/v1/graphrag/explain \
+       -H "Content-Type: application/json" \
+       -d '{"query": "What are Emirates cancellation rules?", "airline": "EK"}'
      ```

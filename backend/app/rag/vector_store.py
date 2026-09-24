@@ -14,6 +14,9 @@ from app.rag.models import DocumentChunk
 class QdrantVectorStore:
     """Manages Qdrant vector collection, indexing, and filtered semantic retrieval."""
 
+    _shared_in_memory_client: QdrantClient | None = None
+    _qdrant_reachable: bool | None = None
+
     def __init__(
         self,
         client: QdrantClient | None = None,
@@ -25,19 +28,26 @@ class QdrantVectorStore:
 
         if client is not None:
             self.client = client
+        elif QdrantVectorStore._qdrant_reachable is False:
+            if QdrantVectorStore._shared_in_memory_client is None:
+                QdrantVectorStore._shared_in_memory_client = QdrantClient(":memory:")
+            self.client = QdrantVectorStore._shared_in_memory_client
         else:
-            # Connect to configured host or fallback to in-memory instance if unavailable
             try:
                 self.client = QdrantClient(
                     host=settings.QDRANT_HOST,
                     port=settings.QDRANT_PORT,
                     api_key=settings.QDRANT_API_KEY or None,
-                    timeout=2.0,
+                    timeout=1.0,
                 )
                 self.client.get_collections()
+                QdrantVectorStore._qdrant_reachable = True
             except Exception:
-                logger.info("Initializing in-memory Qdrant instance for hermetic local execution.")
-                self.client = QdrantClient(":memory:")
+                QdrantVectorStore._qdrant_reachable = False
+                if QdrantVectorStore._shared_in_memory_client is None:
+                    logger.info("Initializing in-memory Qdrant instance for hermetic local execution.")
+                    QdrantVectorStore._shared_in_memory_client = QdrantClient(":memory:")
+                self.client = QdrantVectorStore._shared_in_memory_client
 
         self._ensure_collection()
 
