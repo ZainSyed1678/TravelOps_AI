@@ -82,7 +82,7 @@ flowchart TD
 ## 4. Phase-by-Phase Roadmap
 
 - [x] **Phase 0 — Project Foundation** (Repository, Docker Compose, CI tooling, Health/Ready/Version probes)
-- [ ] **Phase 1 — Travel Data Model** (PostgreSQL schema, SQLAlchemy models, Alembic migrations)
+- [x] **Phase 1 — Travel Data Model** (PostgreSQL schema, SQLAlchemy 2.0 models, Alembic migrations, Repositories)
 - [ ] **Phase 2 — Provider Abstraction** (Flight/Hotel/Booking provider interfaces & Mock implementations)
 - [ ] **Phase 3 — Travel Data Ingestion** (Idempotent multi-format pipeline for airports, routes, policies)
 - [ ] **Phase 4 — Production RAG** (Structure-aware chunking, embeddings, Qdrant hybrid retrieval, citations)
