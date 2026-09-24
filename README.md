@@ -94,7 +94,7 @@ flowchart TD
 - [x] **Phase 10 — Agent Memory** (PostgreSQL persistent memory + Redis short-term session cache)
 - [x] **Phase 11 — Evaluation System** (RAG precision@k, MRR, ranking NDCG@k, and agent safety compliance benchmarks)
 - [x] **Phase 12 — Observability** (Prometheus custom metrics & Grafana dashboard provisioning)
-- [ ] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
+- [x] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
 - [ ] **Phase 14 — Frontend Console** (React assistant, agent execution traces, provenance links)
 - [ ] **Phase 15 — Production API** (Validated REST v1 endpoints with OpenAPI 3.1)
 - [ ] **Phase 16 — Security** (Prompt injection defenses, tool sandboxing, audit trails)
@@ -312,6 +312,43 @@ flowchart TD
       - `travelops_ml_ranking_requests_total` & `travelops_ml_ranking_duration_seconds`: Flight ranker inference throughput and latency.
       - `travelops_ml_anomalies_detected_total`: Counter of price surge/deal anomalies identified.
       - `travelops_provider_requests_total` & `travelops_provider_latency_seconds`: Outbound GDS/supplier provider API latencies.
+
+13. **Distributed Caching Layer (Redis + In-Memory Fallback):**
+    - Inspect real-time cache performance and hit rates:
+      ```bash
+      curl http://localhost:8000/api/v1/cache/stats
+      ```
+    - Selectively invalidate cache entries by semantic tag (e.g. all EK flights):
+      ```bash
+      curl -X POST http://localhost:8000/api/v1/cache/invalidate \
+        -H "Content-Type: application/json" \
+        -d '{"tag": "airline:EK"}'
+      ```
+    - Selectively invalidate cache entries by key prefix:
+      ```bash
+      curl -X POST http://localhost:8000/api/v1/cache/invalidate \
+        -H "Content-Type: application/json" \
+        -d '{"prefix": "search:"}'
+      ```
+    - Invalidate a specific cache key:
+      ```bash
+      curl -X POST http://localhost:8000/api/v1/cache/invalidate \
+        -H "Content-Type: application/json" \
+        -d '{"key": "rag_query:baggage policy:ai:baggage"}'
+      ```
+    - Flush an entire namespace:
+      ```bash
+      curl -X DELETE "http://localhost:8000/api/v1/cache/flush?namespace=travelops:flights"
+      ```
+    - Programmatic `@cached` decorator usage:
+      ```python
+      from app.caching import cached
+
+      @cached(ttl_seconds=300, namespace="travelops:flights", tags=["flight_search"])
+      async def get_flight_offers(route: str):
+          ...
+      ```
+
 
 
 

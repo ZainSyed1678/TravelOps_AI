@@ -50,12 +50,30 @@ class RAGService:
             logger.info(
                 f"Indexed {indexed_count} chunks into Qdrant collection '{self.vector_store.collection_name}'"
             )
+            try:
+                from app.caching import cache_manager
+
+                cache_manager.invalidate_tag("rag_policy")
+            except Exception:
+                pass
             return indexed_count
         return 0
 
     def query(self, request: RAGQueryRequest) -> RAGQueryResponse:
         """Execute end-to-end RAG retrieval, reranking, and grounded synthesis."""
         start_time = time.perf_counter()
+
+        # Check cache
+        cache_key = None
+        try:
+            from app.caching import cache_manager
+
+            cache_key = f"rag_query:{request.query.lower().strip()}:{request.airline}:{request.policy_type}"
+            cached_res = cache_manager.get(cache_key, namespace="travelops:rag")
+            if cached_res is not None:
+                return RAGQueryResponse(**cached_res)
+        except Exception:
+            cache_key = None
 
         # Step 1: Semantic Vector Search in Qdrant with Metadata Filters (fetch wider candidate pool for hybrid reranker)
         retrieval_start = time.perf_counter()
@@ -92,6 +110,21 @@ class RAGService:
             record_rag_query("success", total_ms / 1000.0, len(response.sources))
         except Exception:
             pass
+
+        if cache_key:
+            try:
+                from app.caching import cache_manager
+
+                cache_manager.set(
+                    key=cache_key,
+                    value=response.model_dump(mode="json"),
+                    ttl_seconds=600,
+                    namespace="travelops:rag",
+                    tags=["rag_policy"],
+                )
+            except Exception:
+                pass
+
         return response
 
 

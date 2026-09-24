@@ -3,6 +3,7 @@
 import time
 from datetime import UTC, date, datetime, timedelta
 
+from app.caching import cached
 from app.core.logging import logger
 from app.providers.base import FlightProvider
 from app.providers.schemas import (
@@ -22,6 +23,11 @@ class MockFlightProvider(FlightProvider):
     def __init__(self, simulated_latency_ms: float = 20.0):
         self.simulated_latency_ms = simulated_latency_ms
 
+    @cached(
+        ttl_seconds=180,
+        namespace="travelops:flights",
+        tags=["flight_search"],
+    )
     async def search_flights(self, query: FlightSearchQuery) -> FlightSearchResponse:
         """Generate realistic flight search offers for given route."""
         start_time = time.perf_counter()
