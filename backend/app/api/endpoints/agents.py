@@ -107,12 +107,20 @@ async def confirm_hitl_action(
     action_id: str,
     request: HITLConfirmationRequest,
 ) -> HITLConfirmationResponse:
-    return hitl_manager.confirm_action(
+    res = hitl_manager.confirm_action(
         action_id=action_id,
         operator_id=request.operator_id,
         notes=request.notes,
         waiver_override=request.waiver_override,
     )
+    try:
+        from app.observability.metrics import record_hitl_decision
+
+        action_type = res.action_type.value if hasattr(res.action_type, "value") else str(res.action_type)
+        record_hitl_decision(action_type, "APPROVED")
+    except Exception:
+        pass
+    return res
 
 
 @router.post(
@@ -125,11 +133,19 @@ async def reject_hitl_action(
     action_id: str,
     request: HITLRejectionRequest,
 ) -> HITLConfirmationResponse:
-    return hitl_manager.reject_action(
+    res = hitl_manager.reject_action(
         action_id=action_id,
         operator_id=request.operator_id,
         reason=request.reason,
     )
+    try:
+        from app.observability.metrics import record_hitl_decision
+
+        action_type = res.action_type.value if hasattr(res.action_type, "value") else str(res.action_type)
+        record_hitl_decision(action_type, "REJECTED")
+    except Exception:
+        pass
+    return res
 
 
 @router.get(

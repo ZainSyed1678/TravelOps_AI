@@ -80,12 +80,19 @@ class RAGService:
         total_ms = round((time.perf_counter() - start_time) * 1000, 2)
 
         # Step 3: Grounded Synthesis with Citation Validation
-        return self.synthesizer.synthesize(
+        response = self.synthesizer.synthesize(
             query=request.query,
             retrieved_chunks=reranked_chunks,
             retrieval_latency_ms=retrieval_ms,
             total_latency_ms=total_ms,
         )
+        try:
+            from app.observability.metrics import record_rag_query
+
+            record_rag_query("success", total_ms / 1000.0, len(response.sources))
+        except Exception:
+            pass
+        return response
 
 
 rag_service = RAGService()

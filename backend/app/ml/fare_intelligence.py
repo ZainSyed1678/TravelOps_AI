@@ -91,6 +91,14 @@ class FareIntelligenceService:
             )
             confidence = 0.85
 
+        if classification in ("SURGE", "DEAL"):
+            try:
+                from app.observability.metrics import record_fare_anomaly
+
+                record_fare_anomaly(route_key)
+            except Exception:
+                pass
+
         return FareAnomalyResponse(
             route=route_key,
             fare_amount=fare,

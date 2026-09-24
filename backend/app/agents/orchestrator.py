@@ -1,3 +1,4 @@
+import time
 import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -6,6 +7,10 @@ from app.agents.graph import travel_agent_graph
 from app.agents.memory import memory_service
 from app.agents.state import AgentChatRequest, AgentChatResponse, AgentState
 from app.core.logging import logger
+from app.observability.metrics import (
+    record_agent_invocation,
+    record_hitl_action_created,
+)
 
 
 class TravelAgentOrchestrator:
@@ -45,8 +50,19 @@ class TravelAgentOrchestrator:
         if existing_state and "messages" in existing_state:
             initial_state["messages"] = existing_state["messages"] + [user_msg]
 
+        start_time = time.perf_counter()
         logger.info(f"Invoking TravelOps Agent Graph for thread '{thread_id}' with query: '{request.query}'")
-        final_state = travel_agent_graph.invoke(initial_state)
+        try:
+            final_state = travel_agent_graph.invoke(initial_state)
+            duration = time.perf_counter() - start_time
+            workflow = final_state.get("workflow", "SEARCH")
+            record_agent_invocation(workflow, "success", duration)
+            if final_state.get("pending_action"):
+                record_hitl_action_created()
+        except Exception:
+            duration = time.perf_counter() - start_time
+            record_agent_invocation("UNKNOWN", "error", duration)
+            raise
 
         # Update local thread state and Redis hot cache
         self._threads[thread_id] = final_state
@@ -119,8 +135,19 @@ class TravelAgentOrchestrator:
         if existing_state and "messages" in existing_state:
             initial_state["messages"] = existing_state["messages"] + [user_msg]
 
+        start_time = time.perf_counter()
         logger.info(f"Invoking TravelOps Agent Graph (async) for thread '{thread_id}'")
-        final_state = travel_agent_graph.invoke(initial_state)
+        try:
+            final_state = travel_agent_graph.invoke(initial_state)
+            duration = time.perf_counter() - start_time
+            workflow = final_state.get("workflow", "SEARCH")
+            record_agent_invocation(workflow, "success", duration)
+            if final_state.get("pending_action"):
+                record_hitl_action_created()
+        except Exception:
+            duration = time.perf_counter() - start_time
+            record_agent_invocation("UNKNOWN", "error", duration)
+            raise
 
         # Checkpoint to both Redis hot tier and PostgreSQL durable tier
         self._threads[thread_id] = final_state

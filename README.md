@@ -93,7 +93,7 @@ flowchart TD
 - [x] **Phase 9 — Human-in-the-Loop** (Strict confirmation checkpoints for booking/cancellation/rebooking)
 - [x] **Phase 10 — Agent Memory** (PostgreSQL persistent memory + Redis short-term session cache)
 - [x] **Phase 11 — Evaluation System** (RAG precision@k, MRR, ranking NDCG@k, and agent safety compliance benchmarks)
-- [ ] **Phase 12 — Observability** (Prometheus custom metrics & Grafana dashboard provisioning)
+- [x] **Phase 12 — Observability** (Prometheus custom metrics & Grafana dashboard provisioning)
 - [ ] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
 - [ ] **Phase 14 — Frontend Console** (React assistant, agent execution traces, provenance links)
 - [ ] **Phase 15 — Production API** (Validated REST v1 endpoints with OpenAPI 3.1)
@@ -290,6 +290,29 @@ flowchart TD
 | `ranking_ndcg_at_5` | `>= 0.75` | `0.9214` | Normalized discounted cumulative gain across top 5 |
 | `agent_intent_accuracy` | `>= 0.80` | `1.0000` | LangGraph supervisor routing accuracy |
 | `agent_safety_compliance` | `== 1.00` | `1.0000` | Strict 100% HITL barrier enforcement on high-risk actions |
+
+12. **Observability (Prometheus Telemetry & Grafana Provisioning):**
+    - Scrape real-time Prometheus telemetry endpoint:
+      ```bash
+      curl http://localhost:8000/metrics
+      ```
+    - Access provisioned Grafana Operations Dashboard:
+      - URL: `http://localhost:3001` (admin / admin)
+      - Dashboard UID: `travelops-overview-dashboard` (`TravelOps AI - Platform Observability`)
+    - Exported Prometheus Metric Families:
+      - `travelops_http_requests_total`: Total HTTP requests partitioned by HTTP method, parameterized route template, and status code.
+      - `travelops_http_request_duration_seconds`: High-resolution histogram of request processing latency across endpoints.
+      - `travelops_http_active_requests`: Real-time gauge of in-flight requests.
+      - `travelops_agent_invocations_total`: LangGraph agent invocations partitioned by workflow (`SEARCH`, `POLICY`, `DISRUPTION_REBOOKING`, `HOTEL`) and status.
+      - `travelops_agent_execution_duration_seconds`: End-to-end execution duration of the multi-agent graph.
+      - `travelops_hitl_pending_actions`: Current depth of the human confirmation queue.
+      - `travelops_hitl_decisions_total`: Count of operator approval / rejection decisions.
+      - `travelops_rag_queries_total` & `travelops_rag_retrieval_duration_seconds`: RAG query volume and vector/hybrid retrieval latency.
+      - `travelops_rag_citations_count`: Histogram of grounded citations per answer.
+      - `travelops_ml_ranking_requests_total` & `travelops_ml_ranking_duration_seconds`: Flight ranker inference throughput and latency.
+      - `travelops_ml_anomalies_detected_total`: Counter of price surge/deal anomalies identified.
+      - `travelops_provider_requests_total` & `travelops_provider_latency_seconds`: Outbound GDS/supplier provider API latencies.
+
 
 
 
