@@ -1,0 +1,142 @@
+# TravelOps AI: Production Agentic AI + RAG + GraphRAG + ML Travel Operations Platform
+
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111.0-009688.svg)](https://fastapi.tiangolo.com)
+[![Docker](https://img.shields.io/badge/docker-compose-2496ED.svg)](https://docs.docker.com/compose/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> **TravelOps AI** is an enterprise-grade travel operations platform combining multi-agent orchestration, hybrid RAG & GraphRAG retrieval, tabular machine learning, and travel provider abstractions.
+
+---
+
+## 1. Problem Statement & Real-World Use Case
+
+Modern travel operations demand high-accuracy search, strict policy adherence (cancellations, fare conditions, refunds), real-time disruption handling, and auditable actions. Conventional travel chatbots suffer from:
+1. **Hallucination Risk**: Generating false fare rules or refund terms.
+2. **Lack of Relational Awareness**: Missing complex airline alliances, codeshares, route graphs, and supplier policies.
+3. **Unbounded Autonomy**: Accidentally executing destructive or monetary booking changes without explicit human confirmation.
+4. **Unranked Options**: Presenting raw flight dumps rather than machine-learning-ranked, personalized choices.
+
+**TravelOps AI** solves this with a **deterministic, agentic multi-agent architecture** bounded by strict human-in-the-loop controls, backed by Neo4j Knowledge Graphs, Qdrant Vector Search, and LightGBM ranking models.
+
+---
+
+## 2. High-Level System Architecture
+
+```mermaid
+flowchart TD
+    User([User / Travel Operations Manager]) -->|HTTPS / WSS| Frontend[React + TypeScript Frontend]
+    Frontend -->|REST API / JSON| API[FastAPI Gateway]
+
+    subgraph CoreApplication [Application Core]
+        API --> AgentLayer[LangGraph Multi-Agent Orchestrator]
+        API --> MLLayer[ML Prediction & Ranking Service]
+        
+        AgentLayer --> SearchAgent[Search Agent]
+        AgentLayer --> PolicyAgent[Policy Agent]
+        AgentLayer --> BookingAgent[Booking Servicing Agent]
+    end
+
+    subgraph DataRetrieval [Hybrid Retrieval & Data Engine]
+        PolicyAgent --> RAG[Qdrant Vector RAG]
+        PolicyAgent --> GraphRAG[Neo4j Knowledge Graph]
+        SearchAgent --> ProviderGate[Provider Abstraction Layer]
+        BookingAgent --> ProviderGate
+    end
+
+    subgraph ExternalProviders [Travel Suppliers]
+        ProviderGate --> MockProvider[Mock GDS/NDC Provider]
+        ProviderGate --> AmadeusProvider[Amadeus Travel API]
+    end
+
+    subgraph Persistence [State & Relational Persistence]
+        AgentLayer --> Redis[(Redis Cache & Session)]
+        BookingAgent --> Postgres[(PostgreSQL 16 Relational DB)]
+    end
+
+    subgraph Observability [Observability & Metrics]
+        API --> Prometheus[(Prometheus Metrics)]
+        Prometheus --> Grafana[Grafana Dashboards]
+    end
+```
+
+---
+
+## 3. Technology Stack
+
+| Domain | Technology | Purpose |
+|---|---|---|
+| **API Gateway** | FastAPI, Uvicorn, Pydantic v2 | Async REST endpoints, validation, schema generation |
+| **Agent Orchestration** | LangGraph, LangChain Core | Bounded agent workflows with explicit state machines |
+| **Vector Database** | Qdrant | Dense vector retrieval for fare rules & NDC documentation |
+| **Knowledge Graph** | Neo4j 5 (Cypher) | Airline route network, alliance relationships, policy graphs |
+| **Relational Store** | PostgreSQL 16 (SQLAlchemy 2.0 Async) | ACID bookings, traveler profiles, tickets, auditable events |
+| **Caching & State** | Redis 7 | Transient search caches, rate limiting, agent memory |
+| **Machine Learning** | LightGBM, XGBoost, Scikit-learn, SHAP | Flight ranking and fare anomaly detection |
+| **Frontend UI** | React 18, TypeScript, Vite, TailwindCSS | Operational travel console, agent tracing, audit modal |
+| **Monitoring** | Prometheus, Grafana | Latency histograms, agent token usage, tool metrics |
+| **Containerization** | Docker, Docker Compose | Reproducible multi-service deployment |
+
+---
+
+## 4. Phase-by-Phase Roadmap
+
+- [x] **Phase 0 — Project Foundation** (Repository, Docker Compose, CI tooling, Health/Ready/Version probes)
+- [ ] **Phase 1 — Travel Data Model** (PostgreSQL schema, SQLAlchemy models, Alembic migrations)
+- [ ] **Phase 2 — Provider Abstraction** (Flight/Hotel/Booking provider interfaces & Mock implementations)
+- [ ] **Phase 3 — Travel Data Ingestion** (Idempotent multi-format pipeline for airports, routes, policies)
+- [ ] **Phase 4 — Production RAG** (Structure-aware chunking, embeddings, Qdrant hybrid retrieval, citations)
+- [ ] **Phase 5 — Neo4j Knowledge Graph** (Graph ingestion, Cypher entity-relationship traversals)
+- [ ] **Phase 6 — GraphRAG** (Entity-guided graph traversal + semantic vector fusion reranking)
+- [ ] **Phase 7 — Travel ML** (LightGBM flight ranker, fare intelligence, SHAP explainability)
+- [ ] **Phase 8 — Agentic AI** (LangGraph state machine: Orchestrator, Search, Policy, Booking nodes)
+- [ ] **Phase 9 — Human-in-the-Loop** (Strict confirmation checkpoints for booking/cancellation/rebooking)
+- [ ] **Phase 10 — Agent Memory** (PostgreSQL persistent memory + Redis short-term session cache)
+- [ ] **Phase 11 — Evaluation System** (RAG precision@k, agent tool accuracy, ranking NDCG benchmarks)
+- [ ] **Phase 12 — Observability** (Prometheus custom metrics & Grafana dashboard provisioning)
+- [ ] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
+- [ ] **Phase 14 — Frontend Console** (React assistant, agent execution traces, provenance links)
+- [ ] **Phase 15 — Production API** (Validated REST v1 endpoints with OpenAPI 3.1)
+- [ ] **Phase 16 — Security** (Prompt injection defenses, tool sandboxing, audit trails)
+- [ ] **Phase 17 — Automated Testing** (Unit, integration, and E2E agent scenario test suite)
+- [ ] **Phase 18 — CI/CD Pipeline** (GitHub Actions automated test, lint, and build verification)
+- [ ] **Phase 19 — Production Documentation** (Complete architecture specifications and runbooks)
+- [ ] **Phase 20 — Final Integration & Verification** (Comprehensive end-to-end journey tests)
+
+---
+
+## 5. Getting Started (Phase 0)
+
+### Prerequisites
+- Python 3.11+
+- Node.js 20+ & npm
+- Docker & Docker Compose
+
+### Quick Setup
+
+1. **Clone & Setup Environment:**
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Run Services with Docker Compose:**
+   ```bash
+   docker compose up -d --build
+   ```
+
+3. **Verify Health Probes:**
+   - Liveness: `curl http://localhost:8000/health`
+   - Readiness: `curl http://localhost:8000/ready`
+   - Version: `curl http://localhost:8000/version`
+   - Metrics: `curl http://localhost:8000/metrics`
+   - API Docs: `http://localhost:8000/docs`
+   - Frontend UI: `http://localhost:3000`
+   - Grafana: `http://localhost:3001` (admin / admin)
+   - Prometheus: `http://localhost:9090`
+   - Neo4j Browser: `http://localhost:7474` (neo4j / travelops_neo4j_password)
+   - Qdrant Dashboard: `http://localhost:6333/dashboard`
+
+4. **Run Backend Tests Locally:**
+   ```bash
+   pytest backend/tests -v
+   ```
