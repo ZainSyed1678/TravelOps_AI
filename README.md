@@ -83,7 +83,7 @@ flowchart TD
 
 - [x] **Phase 0 — Project Foundation** (Repository, Docker Compose, CI tooling, Health/Ready/Version probes)
 - [x] **Phase 1 — Travel Data Model** (PostgreSQL schema, SQLAlchemy 2.0 models, Alembic migrations, Repositories)
-- [ ] **Phase 2 — Provider Abstraction** (Flight/Hotel/Booking provider interfaces & Mock implementations)
+- [x] **Phase 2 — Provider Abstraction** (Flight/Hotel/Booking provider interfaces, Mocks, Amadeus adapter, Error normalization)
 - [ ] **Phase 3 — Travel Data Ingestion** (Idempotent multi-format pipeline for airports, routes, policies)
 - [ ] **Phase 4 — Production RAG** (Structure-aware chunking, embeddings, Qdrant hybrid retrieval, citations)
 - [ ] **Phase 5 — Neo4j Knowledge Graph** (Graph ingestion, Cypher entity-relationship traversals)
