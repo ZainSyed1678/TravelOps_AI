@@ -85,7 +85,7 @@ flowchart TD
 - [x] **Phase 1 — Travel Data Model** (PostgreSQL schema, SQLAlchemy 2.0 models, Alembic migrations, Repositories)
 - [x] **Phase 2 — Provider Abstraction** (Flight/Hotel/Booking provider interfaces, Mocks, Amadeus adapter, Error normalization)
 - [x] **Phase 3 — Travel Data Ingestion** (Idempotent multi-format pipeline for PDF, HTML, JSON, CSV, API; SHA-256 provenance)
-- [ ] **Phase 4 — Production RAG** (Structure-aware chunking, embeddings, Qdrant hybrid retrieval, citations)
+- [x] **Phase 4 — Production RAG** (Structure-aware chunking, embeddings, Qdrant hybrid retrieval, reranking, citations, POST /rag/query)
 - [ ] **Phase 5 — Neo4j Knowledge Graph** (Graph ingestion, Cypher entity-relationship traversals)
 - [ ] **Phase 6 — GraphRAG** (Entity-guided graph traversal + semantic vector fusion reranking)
 - [ ] **Phase 7 — Travel ML** (LightGBM flight ranker, fare intelligence, SHAP explainability)

@@ -12,6 +12,7 @@ from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_
 
 from app.api.api_v1.api import api_router
 from app.api.endpoints.health import router as health_router
+from app.api.endpoints.rag import router as rag_router
 from app.core.config import settings
 from app.core.database import engine
 from app.core.logging import logger
@@ -36,6 +37,13 @@ REQUEST_LATENCY = Histogram(
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan context manager for startup and shutdown hooks."""
     logger.info(f"Starting {settings.PROJECT_NAME} v{settings.VERSION} [{settings.APP_ENV}]")
+    try:
+        from app.rag.service import rag_service
+
+        count = rag_service.index_processed_documents()
+        logger.info(f"RAG vector store initialized with {count} document chunks.")
+    except Exception as exc:
+        logger.warning(f"RAG vector store initialization note: {exc}")
     yield
     logger.info(f"Shutting down {settings.PROJECT_NAME} resources...")
     await close_redis_client()
@@ -118,6 +126,9 @@ def create_application() -> FastAPI:
 
     # Root Level Health, Ready & Version endpoints
     app.include_router(health_router, prefix="", tags=["Platform Health"])
+
+    # Root Level RAG query endpoint (POST /rag/query)
+    app.include_router(rag_router, prefix="/rag", tags=["Production RAG"])
 
     # API v1 prefix endpoints
     app.include_router(api_router, prefix=settings.API_V1_PREFIX)
