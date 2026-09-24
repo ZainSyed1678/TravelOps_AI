@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from app.api.endpoints import graph, graphrag, health, rag
+from app.api.endpoints import graph, graphrag, health, ml, rag
 
 api_router = APIRouter()
 
@@ -17,3 +17,6 @@ api_router.include_router(graph.router, prefix="/graph", tags=["Knowledge Graph"
 
 # GraphRAG Intelligence Fusion
 api_router.include_router(graphrag.router, prefix="/graphrag", tags=["GraphRAG"])
+
+# Machine Learning & Ranking
+api_router.include_router(ml.router, prefix="/ml", tags=["Travel Machine Learning"])

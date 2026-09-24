@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-09-24T07:58:49.735962Z",
+  "last_updated": "2026-09-24T08:20:03.048529Z",
   "documents": {
     "airports.csv_AIRPORT_DATA": {
       "document_id": "doc-csv-airports-e832c26ae50c",
@@ -8,7 +8,7 @@
       "document_type": "AIRPORT_DATA",
       "hash": "e832c26ae50cd0bc03682983f584a8e2919314c2e5e3179480900d28444ade4e",
       "version": "1.0",
-      "updated_at": "2026-09-24T07:58:49.719972+00:00",
+      "updated_at": "2026-09-24T08:20:03.032195+00:00",
       "records_count": 8,
       "processed_file": "data\\processed\\doc-csv-airports-e832c26ae50c.json"
     },
@@ -18,7 +18,7 @@
       "document_type": "AIRLINE_DATA",
       "hash": "c69cc777f58112f4ca030379c54be1d41dd48a1e7c52baba0634b67cba34d025",
       "version": "1.0",
-      "updated_at": "2026-09-24T07:58:49.721710+00:00",
+      "updated_at": "2026-09-24T08:20:03.034206+00:00",
       "records_count": 5,
       "processed_file": "data\\processed\\doc-json-airlines-c69cc777f581.json"
     },
@@ -28,7 +28,7 @@
       "document_type": "FLIGHT_ROUTE",
       "hash": "d00cb4aedef024e725e41c646d198d8046788dd4e85b274b76c6e0ca273957fc",
       "version": "1.0",
-      "updated_at": "2026-09-24T07:58:49.723776+00:00",
+      "updated_at": "2026-09-24T08:20:03.036206+00:00",
       "records_count": 8,
       "processed_file": "data\\processed\\doc-csv-flight_routes-d00cb4aedef0.json"
     },
@@ -38,7 +38,7 @@
       "document_type": "HOTEL_DATA",
       "hash": "05f8114aaddba7c3623b24cd8616afd4cc6ac2cc83c646403dab9ff6f214965a",
       "version": "1.0",
-      "updated_at": "2026-09-24T07:58:49.725298+00:00",
+      "updated_at": "2026-09-24T08:20:03.037244+00:00",
       "records_count": 3,
       "processed_file": "data\\processed\\doc-json-hotels-05f8114aaddb.json"
     },
@@ -48,7 +48,7 @@
       "document_type": "TRAVEL_POLICY",
       "hash": "d0f0d4d70ea229d4392d0957be67f3cb88452aeeeaf515193fb28aa10c5af8c0",
       "version": "1.0",
-      "updated_at": "2026-09-24T07:58:49.728630+00:00",
+      "updated_at": "2026-09-24T08:20:03.041085+00:00",
       "records_count": 1,
       "processed_file": "data\\processed\\doc-html-emirates_cancellation_policy-d0f0d4d70ea2.json"
     },
@@ -58,7 +58,7 @@
       "document_type": "FARE_RULE",
       "hash": "9aa586b3c0660024bc59be7f34c38a78bb32c1a9deebc2b3949e92c2feffdcbf",
       "version": "1.0",
-      "updated_at": "2026-09-24T07:58:49.729666+00:00",
+      "updated_at": "2026-09-24T08:20:03.043461+00:00",
       "records_count": 1,
       "processed_file": "data\\processed\\doc-json-air_india_fare_rules-9aa586b3c066.json"
     },
@@ -68,7 +68,7 @@
       "document_type": "NDC_DOCUMENTATION",
       "hash": "ef68cb67035304e43d11a8f66d5ed58cceb8b0a6bfaa15b23e96a604924965d8",
       "version": "1.0",
-      "updated_at": "2026-09-24T07:58:49.733804+00:00",
+      "updated_at": "2026-09-24T08:20:03.046009+00:00",
       "records_count": 1,
       "processed_file": "data\\processed\\doc-html-iata_ndc_shopping_guide-ef68cb670353.json"
     },
@@ -78,7 +78,7 @@
       "document_type": "SUPPLIER_API_DOC",
       "hash": "e2064e4453a68e9a117a3179fe6e70d3dd35b87371ae39bc3625d239fa7096c8",
       "version": "1.0",
-      "updated_at": "2026-09-24T07:58:49.735962+00:00",
+      "updated_at": "2026-09-24T08:20:03.047518+00:00",
       "records_count": 1,
       "processed_file": "data\\processed\\doc-json-amadeus_flight_offers_api-e2064e4453a6.json"
     }
