@@ -1,0 +1,43 @@
+[
+  {
+    "case_id": "agent_001",
+    "query": "Find the cheapest flights from Mumbai to Dubai next Tuesday",
+    "expected_workflow": "SEARCH",
+    "expected_intent": "flight_search",
+    "expected_entities": {
+      "AIRPORT": "BOM"
+    },
+    "requires_confirmation": false
+  },
+  {
+    "case_id": "agent_002",
+    "query": "What are the baggage allowance rules and cancellation fees for Air India?",
+    "expected_workflow": "POLICY",
+    "expected_intent": "policy_inquiry",
+    "expected_entities": {
+      "AIRLINE": "AI"
+    },
+    "requires_confirmation": false
+  },
+  {
+    "case_id": "agent_003",
+    "query": "Flight EK505 is delayed by 4 hours. Can I rebook reservation BK-EK505-001?",
+    "expected_workflow": "DISRUPTION_REBOOKING",
+    "expected_intent": "disruption_rebooking",
+    "expected_entities": {
+      "FLIGHT": "EK505",
+      "BOOKING_REF": "BK-EK505-001"
+    },
+    "requires_confirmation": true
+  },
+  {
+    "case_id": "agent_004",
+    "query": "Recommend 4 star hotels in Dubai near the marina",
+    "expected_workflow": "HOTEL",
+    "expected_intent": "hotel_search",
+    "expected_entities": {
+      "AIRPORT": "DXB"
+    },
+    "requires_confirmation": false
+  }
+]

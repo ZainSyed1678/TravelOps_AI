@@ -55,6 +55,7 @@ Rules:
             citations.append(
                 RAGCitation(
                     document=chunk.source,
+                    document_id=chunk.document_id,
                     page=chunk.page,
                     section=chunk.section,
                     relevance_score=score,

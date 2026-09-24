@@ -57,12 +57,12 @@ class RAGService:
         """Execute end-to-end RAG retrieval, reranking, and grounded synthesis."""
         start_time = time.perf_counter()
 
-        # Step 1: Semantic Vector Search in Qdrant with Metadata Filters
+        # Step 1: Semantic Vector Search in Qdrant with Metadata Filters (fetch wider candidate pool for hybrid reranker)
         retrieval_start = time.perf_counter()
         candidates = self.vector_store.search(
             query=request.query,
-            top_k=request.top_k,
-            score_threshold=request.score_threshold,
+            top_k=max(request.top_k * 3, 10),
+            score_threshold=None,
             airline=request.airline,
             supplier=request.supplier,
             policy_type=request.policy_type,

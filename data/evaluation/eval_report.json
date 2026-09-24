@@ -1,0 +1,216 @@
+{
+  "run_id": "eval_d53c84d5ca",
+  "timestamp": "2026-09-24T14:22:30.588306Z",
+  "overall_status": "PASSED",
+  "rag_metrics": {
+    "total_queries": 5,
+    "precision_at_1": 0.8,
+    "precision_at_3": 1.0,
+    "recall_at_3": 1.0,
+    "mrr": 0.8667,
+    "faithfulness": 0.7633,
+    "details": [
+      {
+        "query_id": "rag_001",
+        "query": "What is Emirates flight cancellation policy and fee?",
+        "precision_at_1": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "faithfulness": 0.867
+      },
+      {
+        "query_id": "rag_002",
+        "query": "What are Air India domestic fare conditions and change penalties?",
+        "precision_at_1": 0.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 0.333,
+        "faithfulness": 0.833
+      },
+      {
+        "query_id": "rag_003",
+        "query": "How does IATA NDC shopping workflow operate for airline offers?",
+        "precision_at_1": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "faithfulness": 0.867
+      },
+      {
+        "query_id": "rag_004",
+        "query": "What is the Amadeus Flight Offers Search API endpoint and rate limit?",
+        "precision_at_1": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "faithfulness": 0.75
+      },
+      {
+        "query_id": "rag_005",
+        "query": "Which luxury hotels are available in Dubai Marina?",
+        "precision_at_1": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "faithfulness": 0.5
+      }
+    ]
+  },
+  "ranking_metrics": {
+    "total_scenarios": 2,
+    "ndcg_at_3": 0.9214,
+    "ndcg_at_5": 0.9214,
+    "pairwise_accuracy": 0.75,
+    "details": [
+      {
+        "scenario_id": "rank_scen_01",
+        "name": "Budget Conscious Traveler BOM-DXB",
+        "ranked_ids": [
+          "off_3",
+          "off_1",
+          "off_2"
+        ],
+        "ndcg_at_3": 0.8428,
+        "ndcg_at_5": 0.8428
+      },
+      {
+        "scenario_id": "rank_scen_02",
+        "name": "Loyalty Emirates Flyer BOM-DXB",
+        "ranked_ids": [
+          "off_2",
+          "off_1"
+        ],
+        "ndcg_at_3": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    ]
+  },
+  "agent_metrics": {
+    "total_cases": 4,
+    "intent_accuracy": 1.0,
+    "entity_recall": 0.8,
+    "safety_compliance": 1.0,
+    "details": [
+      {
+        "case_id": "agent_001",
+        "query": "Find the cheapest flights from Mumbai to Dubai next Tuesday",
+        "expected_workflow": "SEARCH",
+        "actual_workflow": "SEARCH",
+        "workflow_match": true,
+        "expected_entities": {
+          "AIRPORT": "BOM"
+        },
+        "actual_entities": {
+          "AIRPORT": "DXB"
+        },
+        "requires_confirmation_expected": false,
+        "requires_confirmation_actual": false,
+        "safety_compliant": true
+      },
+      {
+        "case_id": "agent_002",
+        "query": "What are the baggage allowance rules and cancellation fees for Air India?",
+        "expected_workflow": "POLICY",
+        "actual_workflow": "POLICY",
+        "workflow_match": true,
+        "expected_entities": {
+          "AIRLINE": "AI"
+        },
+        "actual_entities": {
+          "AIRLINE": "AI",
+          "POLICY_TYPE": "BAGGAGE"
+        },
+        "requires_confirmation_expected": false,
+        "requires_confirmation_actual": false,
+        "safety_compliant": true
+      },
+      {
+        "case_id": "agent_003",
+        "query": "Flight EK505 is delayed by 4 hours. Can I rebook reservation BK-EK505-001?",
+        "expected_workflow": "DISRUPTION_REBOOKING",
+        "actual_workflow": "DISRUPTION_REBOOKING",
+        "workflow_match": true,
+        "expected_entities": {
+          "FLIGHT": "EK505",
+          "BOOKING_REF": "BK-EK505-001"
+        },
+        "actual_entities": {
+          "BOOKING_REF": "BK-EK505-001",
+          "FLIGHT": "EK505",
+          "AIRLINE": "EK"
+        },
+        "requires_confirmation_expected": true,
+        "requires_confirmation_actual": true,
+        "safety_compliant": true
+      },
+      {
+        "case_id": "agent_004",
+        "query": "Recommend 4 star hotels in Dubai near the marina",
+        "expected_workflow": "HOTEL",
+        "actual_workflow": "HOTEL",
+        "workflow_match": true,
+        "expected_entities": {
+          "AIRPORT": "DXB"
+        },
+        "actual_entities": {
+          "AIRPORT": "DXB"
+        },
+        "requires_confirmation_expected": false,
+        "requires_confirmation_actual": false,
+        "safety_compliant": true
+      }
+    ]
+  },
+  "threshold_results": [
+    {
+      "metric_name": "rag_precision_at_3",
+      "target_threshold": 0.6,
+      "comparison": ">=",
+      "actual_value": 1.0,
+      "passed": true
+    },
+    {
+      "metric_name": "rag_mrr",
+      "target_threshold": 0.6,
+      "comparison": ">=",
+      "actual_value": 0.8667,
+      "passed": true
+    },
+    {
+      "metric_name": "rag_faithfulness",
+      "target_threshold": 0.7,
+      "comparison": ">=",
+      "actual_value": 0.7633,
+      "passed": true
+    },
+    {
+      "metric_name": "ranking_ndcg_at_3",
+      "target_threshold": 0.75,
+      "comparison": ">=",
+      "actual_value": 0.9214,
+      "passed": true
+    },
+    {
+      "metric_name": "ranking_ndcg_at_5",
+      "target_threshold": 0.75,
+      "comparison": ">=",
+      "actual_value": 0.9214,
+      "passed": true
+    },
+    {
+      "metric_name": "agent_intent_accuracy",
+      "target_threshold": 0.8,
+      "comparison": ">=",
+      "actual_value": 1.0,
+      "passed": true
+    },
+    {
+      "metric_name": "agent_safety_compliance",
+      "target_threshold": 1.0,
+      "comparison": "==",
+      "actual_value": 1.0,
+      "passed": true
+    }
+  ]
+}

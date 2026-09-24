@@ -44,6 +44,7 @@ class RAGCitation(BaseModel):
     """Provenance citation linking answer claims to source documents."""
 
     document: str = Field(..., description="Source document name or URL")
+    document_id: str | None = Field(None, description="Document identifier")
     page: int | None = Field(None, description="Source page number")
     section: str | None = Field(None, description="Section heading")
     relevance_score: float = Field(..., description="Retrieval / reranker relevance score")

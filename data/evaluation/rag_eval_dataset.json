@@ -1,0 +1,37 @@
+[
+  {
+    "query_id": "rag_001",
+    "query": "What is Emirates flight cancellation policy and fee?",
+    "target_doc_id": "doc-html-emirates_cancellation_policy-d0f0d4d70ea2",
+    "relevant_chunk_keywords": ["emirates", "cancellation", "hours", "refund", "fee"],
+    "expected_answer_contains": ["cancellation", "fee", "hours"]
+  },
+  {
+    "query_id": "rag_002",
+    "query": "What are Air India domestic fare conditions and change penalties?",
+    "target_doc_id": "doc-json-air_india_fare_rules-9aa586b3c066",
+    "relevant_chunk_keywords": ["air india", "fare rules", "penalty", "economy"],
+    "expected_answer_contains": ["Air India", "fee", "change"]
+  },
+  {
+    "query_id": "rag_003",
+    "query": "How does IATA NDC shopping workflow operate for airline offers?",
+    "target_doc_id": "doc-html-iata_ndc_shopping_guide-ef68cb670353",
+    "relevant_chunk_keywords": ["iata", "ndc", "shopping", "xml", "offers"],
+    "expected_answer_contains": ["NDC", "offer", "order"]
+  },
+  {
+    "query_id": "rag_004",
+    "query": "What is the Amadeus Flight Offers Search API endpoint and rate limit?",
+    "target_doc_id": "doc-json-amadeus_flight_offers_api-e2064e4453a6",
+    "relevant_chunk_keywords": ["amadeus", "flight-offers", "endpoint", "rate limit"],
+    "expected_answer_contains": ["amadeus", "flight-offers"]
+  },
+  {
+    "query_id": "rag_005",
+    "query": "Which luxury hotels are available in Dubai Marina?",
+    "target_doc_id": "doc-json-hotels-05f8114aaddb",
+    "relevant_chunk_keywords": ["dubai marina", "marina bay", "hotel"],
+    "expected_answer_contains": ["Marina", "Hotel"]
+  }
+]

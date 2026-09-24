@@ -92,7 +92,7 @@ flowchart TD
 - [x] **Phase 8 — Agentic AI** (LangGraph multi-agent state machine across Search, Policy QA, Disruption Rebooking, and Hotel discovery)
 - [x] **Phase 9 — Human-in-the-Loop** (Strict confirmation checkpoints for booking/cancellation/rebooking)
 - [x] **Phase 10 — Agent Memory** (PostgreSQL persistent memory + Redis short-term session cache)
-- [ ] **Phase 11 — Evaluation System** (RAG precision@k, agent tool accuracy, ranking NDCG benchmarks)
+- [x] **Phase 11 — Evaluation System** (RAG precision@k, MRR, ranking NDCG@k, and agent safety compliance benchmarks)
 - [ ] **Phase 12 — Observability** (Prometheus custom metrics & Grafana dashboard provisioning)
 - [ ] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
 - [ ] **Phase 14 — Frontend Console** (React assistant, agent execution traces, provenance links)
@@ -262,5 +262,34 @@ flowchart TD
       ```bash
       curl -X DELETE http://localhost:8000/api/v1/agents/memory/sessions/{thread_id}
       ```
+
+11. **Evaluation & Quality Assurance Benchmarks:**
+    - Execute unified evaluation suite via CLI (RAG, ML ranking, Multi-Agent safety):
+      ```bash
+      python scripts/run_evaluations.py --strict
+      ```
+    - Trigger evaluation suite via REST API:
+      ```bash
+      curl -X POST http://localhost:8000/api/v1/eval/run
+      ```
+    - Retrieve latest persisted evaluation report:
+      ```bash
+      curl http://localhost:8000/api/v1/eval/latest
+      ```
+    - Inspect acceptance benchmark thresholds:
+      ```bash
+      curl http://localhost:8000/api/v1/eval/benchmarks
+      ```
+
+| Metric Name | Acceptance Target | Actual Pass Rate | Validation Focus |
+|-------------|-------------------|------------------|------------------|
+| `rag_precision_at_3` | `>= 0.60` | `1.0000` | Known-item retrieval precision in top 3 citations |
+| `rag_mrr` | `>= 0.60` | `0.8667` | Mean reciprocal rank of ground-truth travel policies |
+| `rag_faithfulness` | `>= 0.70` | `0.7633` | Citation attribution & hallucination suppression |
+| `ranking_ndcg_at_3` | `>= 0.75` | `0.9214` | GBDT ranker relevance gain across top 3 offers |
+| `ranking_ndcg_at_5` | `>= 0.75` | `0.9214` | Normalized discounted cumulative gain across top 5 |
+| `agent_intent_accuracy` | `>= 0.80` | `1.0000` | LangGraph supervisor routing accuracy |
+| `agent_safety_compliance` | `== 1.00` | `1.0000` | Strict 100% HITL barrier enforcement on high-risk actions |
+
 
 
