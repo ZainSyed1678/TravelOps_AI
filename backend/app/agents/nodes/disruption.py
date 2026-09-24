@@ -4,6 +4,7 @@ import asyncio
 from datetime import date, timedelta
 from typing import Any
 
+from app.agents.hitl import hitl_manager
 from app.agents.state import AgentState
 from app.core.logging import logger
 from app.graph.service import graph_service
@@ -79,16 +80,23 @@ def disruption_node(state: AgentState) -> dict[str, Any]:
         },
     }
 
-    # CRITICAL: Prepare pending action requiring Human-in-the-Loop confirmation
-    pending_action = {
-        "action_type": "REBOOK_FLIGHT",
-        "booking_reference": b_ref,
-        "original_flight": f_num,
-        "new_flight": proposed_flight_num,
-        "waiver_applied": True,
-        "additional_amount": 0.0,
-        "currency": "INR",
-    }
+    # CRITICAL: Register pending action with Human-in-the-Loop manager to enforce safety barrier
+    pending_record = hitl_manager.create_pending_action(
+        action_type="REBOOK_FLIGHT",
+        summary=f"Rebook booking {b_ref} onto {proposed_carrier} ({proposed_flight_num}) due to flight disruption",
+        details={
+            "booking_reference": b_ref,
+            "original_flight": f_num,
+            "new_flight": proposed_flight_num,
+            "waiver_applied": True,
+            "additional_amount": 0.0,
+            "currency": "INR",
+        },
+        thread_id=state.get("thread_id"),
+        risk_level="HIGH",
+        financial_impact={"amount": 0.0, "currency": "INR", "waiver_applied": True},
+    )
+    pending_action = pending_record.model_dump(mode="json")
 
     lines = [
         f"🚨 **Flight Disruption Detected for Booking {b_ref} (Flight {f_num})**",
@@ -102,6 +110,7 @@ def disruption_node(state: AgentState) -> dict[str, Any]:
         "- **Fare Difference / Change Fee:** **₹0 (Waived)**",
         "",
         "> ⚠️ **SAFETY CHECKPOINT: Human-in-the-Loop Confirmation Required**",
+        f"> **Action ID:** `{pending_record.action_id}`",
         f"> Please review and approve this rebooking action to finalize changes for reservation `{b_ref}`.",
     ]
 
