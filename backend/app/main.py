@@ -44,6 +44,14 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         logger.info(f"RAG vector store initialized with {count} document chunks.")
     except Exception as exc:
         logger.warning(f"RAG vector store initialization note: {exc}")
+
+    try:
+        from app.graph.ingestion import sync_knowledge_graph
+
+        stats = sync_knowledge_graph()
+        logger.info(f"Knowledge Graph initialized: {stats}")
+    except Exception as exc:
+        logger.warning(f"Knowledge Graph initialization note: {exc}")
     yield
     logger.info(f"Shutting down {settings.PROJECT_NAME} resources...")
     await close_redis_client()

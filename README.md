@@ -86,7 +86,7 @@ flowchart TD
 - [x] **Phase 2 — Provider Abstraction** (Flight/Hotel/Booking provider interfaces, Mocks, Amadeus adapter, Error normalization)
 - [x] **Phase 3 — Travel Data Ingestion** (Idempotent multi-format pipeline for PDF, HTML, JSON, CSV, API; SHA-256 provenance)
 - [x] **Phase 4 — Production RAG** (Structure-aware chunking, embeddings, Qdrant hybrid retrieval, reranking, citations, POST /rag/query)
-- [ ] **Phase 5 — Neo4j Knowledge Graph** (Graph ingestion, Cypher entity-relationship traversals)
+- [x] **Phase 5 — Neo4j Knowledge Graph** (12 entity types, schema constraints, multi-hop Cypher traversals, in-memory graph fallback, API endpoints, CLI sync runner)
 - [ ] **Phase 6 — GraphRAG** (Entity-guided graph traversal + semantic vector fusion reranking)
 - [ ] **Phase 7 — Travel ML** (LightGBM flight ranker, fare intelligence, SHAP explainability)
 - [ ] **Phase 8 — Agentic AI** (LangGraph state machine: Orchestrator, Search, Policy, Booking nodes)
@@ -140,3 +140,25 @@ flowchart TD
    ```bash
    pytest backend/tests -v
    ```
+
+5. **Knowledge Graph Synchronization & Traversal:**
+   - Run batch graph synchronization CLI:
+     ```bash
+     python scripts/ingest_graph.py
+     ```
+   - Query flight context via API:
+     ```bash
+     curl http://localhost:8000/api/v1/graph/flight/EK505
+     ```
+   - Query airline cancellation policies:
+     ```bash
+     curl "http://localhost:8000/api/v1/graph/airline/AI/policies?policy_type=CANCELLATION"
+     ```
+   - Query destination hotels:
+     ```bash
+     curl http://localhost:8000/api/v1/graph/destination/DXB/hotels
+     ```
+   - Trigger graph sync via REST:
+     ```bash
+     curl -X POST http://localhost:8000/api/v1/graph/sync
+     ```
