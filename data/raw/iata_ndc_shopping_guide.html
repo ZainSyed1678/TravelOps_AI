@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IATA NDC Shopping Architecture & AirShopping Protocol Guide</title>
+</head>
+<body>
+    <h1>IATA New Distribution Capability (NDC) — AirShopping Architecture Guide</h1>
+    <p>Standard Version: 21.3 | Category: Supplier & API Architecture</p>
+
+    <h2>1. Overview of NDC AirShopping</h2>
+    <p>The IATA NDC standard transforms airline retailing from static schedule filings (ATPCO/GDS) to dynamic, direct offer creation controlled by the carrier's Order Management System (OMS).</p>
+
+    <h2>2. The Shopping Workflow</h2>
+    <ol>
+        <li><strong>AirShoppingRQ:</strong> The travel seller or aggregator sends an AirShopping request specifying travel criteria:
+            <ul>
+                <li>Origin and destination airport codes (IATA 3-letter).</li>
+                <li>Travel dates and preferred cabin classes.</li>
+                <li>Passenger types (Adult, Child, Infant) and loyalty credentials.</li>
+            </ul>
+        </li>
+        <li><strong>Carrier Processing:</strong> The airline pricing engine computes real-time personalized offers, bundles (baggage, Wi-Fi, lounge), and dynamic ancillary pricing.</li>
+        <li><strong>AirShoppingRS:</strong> The carrier returns an AirShopping response containing:
+            <ul>
+                <li><strong>OfferID:</strong> Unique temporary identifier with time-to-live expiration (typically 15-30 minutes).</li>
+                <li><strong>FlightDetails:</strong> Segment timings, equipment, operating and marketing carrier codes.</li>
+                <li><strong>Price:</strong> Grand total, tax breakdowns, and currency.</li>
+                <li><strong>Baggage & Ancillaries:</strong> Included service allowances and optional add-ons.</li>
+            </ul>
+        </li>
+        <li><strong>OfferPrice:</strong> (Optional) Re-confirms price before order creation.</li>
+        <li><strong>OrderCreate:</strong> Commits the booking, creates an Airline PNR and generates an Order ID with e-ticket issuance.</li>
+    </ol>
+
+    <h2>3. Coexistence with Traditional GDS EDIFACT</h2>
+    <p>Unlike traditional EDIFACT messaging where GDS calculates the fare based on filed tariffs, NDC guarantees that the airline owns and constructs the offer directly.</p>
+</body>
+</html>

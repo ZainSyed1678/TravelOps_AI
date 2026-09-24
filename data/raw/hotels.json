@@ -1,0 +1,74 @@
+[
+  {
+    "id": "htl-dxb-01",
+    "name": "Marina Bay Grand Hotel",
+    "chain": "Grand Luxury Hotels",
+    "city": "Dubai",
+    "country": "United Arab Emirates",
+    "address": "Dubai Marina, Al Marsa Street",
+    "star_rating": 4.5,
+    "rooms": [
+      {
+        "type": "DELUXE_MARINA_VIEW",
+        "price_per_night": 8500.0,
+        "max_occupancy": 2,
+        "amenities": ["WiFi", "Balcony", "Marina View"]
+      },
+      {
+        "type": "EXECUTIVE_SUITE",
+        "price_per_night": 15000.0,
+        "max_occupancy": 3,
+        "amenities": ["WiFi", "Lounge Access", "Breakfast Included"]
+      }
+    ],
+    "policies": {
+      "cancellation": "Free cancellation up to 48 hours prior to check-in.",
+      "check_in": "15:00",
+      "check_out": "12:00"
+    }
+  },
+  {
+    "id": "htl-dxb-02",
+    "name": "Downtown Palace Suites",
+    "chain": "Palace Collection",
+    "city": "Dubai",
+    "country": "United Arab Emirates",
+    "address": "Sheikh Mohammed bin Rashid Blvd, Downtown Dubai",
+    "star_rating": 5.0,
+    "rooms": [
+      {
+        "type": "BURJ_VIEW_SUITE",
+        "price_per_night": 14000.0,
+        "max_occupancy": 2,
+        "amenities": ["Burj View", "Butler Service", "Spa Access"]
+      }
+    ],
+    "policies": {
+      "cancellation": "Non-refundable within 7 days of arrival.",
+      "check_in": "14:00",
+      "check_out": "12:00"
+    }
+  },
+  {
+    "id": "htl-bom-01",
+    "name": "The Taj Mahal Palace",
+    "chain": "IHCL",
+    "city": "Mumbai",
+    "country": "India",
+    "address": "Apollo Bandar, Colaba, Mumbai",
+    "star_rating": 5.0,
+    "rooms": [
+      {
+        "type": "PALACE_SEA_VIEW",
+        "price_per_night": 22000.0,
+        "max_occupancy": 2,
+        "amenities": ["Gateway View", "Heritage Room", "High Tea"]
+      }
+    ],
+    "policies": {
+      "cancellation": "Free cancellation up to 24 hours prior to arrival.",
+      "check_in": "14:00",
+      "check_out": "12:00"
+    }
+  }
+]

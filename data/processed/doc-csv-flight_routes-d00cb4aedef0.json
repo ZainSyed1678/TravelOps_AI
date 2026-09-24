@@ -1,0 +1,117 @@
+{
+  "document_id": "doc-csv-flight_routes-d00cb4aedef0",
+  "source": "flight_routes.csv",
+  "source_url": "C:\\Users\\user\\Desktop\\chidya_udi\\data\\raw\\flight_routes.csv",
+  "version": "1.0",
+  "hash": "d00cb4aedef024e725e41c646d198d8046788dd4e85b274b76c6e0ca273957fc",
+  "created_at": "2026-09-24T06:22:26.252821Z",
+  "updated_at": "2026-09-24T06:22:26.252821Z",
+  "document_type": "FLIGHT_ROUTE",
+  "title": "Flight Routes and Schedules",
+  "content": "# Flight Routes and Schedules\nSource: flight_routes.csv\nColumns: flight_number, airline_code, origin, destination, departure_time, arrival_time, duration_minutes, aircraft_type, stops\nTotal Records: 8\n\n## Sample Records:\n1. flight_number: EK505, airline_code: EK, origin: BOM, destination: DXB, departure_time: 10:15, arrival_time: 12:45, duration_minutes: 210, aircraft_type: Boeing 777-300ER, stops: 0\n2. flight_number: AI915, airline_code: AI, origin: BOM, destination: DXB, departure_time: 07:30, arrival_time: 10:15, duration_minutes: 225, aircraft_type: Airbus A321neo, stops: 0\n3. flight_number: 6E1451, airline_code: 6E, origin: BOM, destination: DXB, departure_time: 16:45, arrival_time: 19:20, duration_minutes: 215, aircraft_type: Airbus A320neo, stops: 0\n4. flight_number: EK501, airline_code: EK, origin: BOM, destination: DXB, departure_time: 04:30, arrival_time: 07:00, duration_minutes: 210, aircraft_type: Airbus A380-800, stops: 0\n5. flight_number: BA142, airline_code: BA, origin: DEL, destination: LHR, departure_time: 03:15, arrival_time: 08:20, duration_minutes: 545, aircraft_type: Boeing 787-9, stops: 0",
+  "metadata": {
+    "format": "csv",
+    "record_count": 8,
+    "columns": [
+      "flight_number",
+      "airline_code",
+      "origin",
+      "destination",
+      "departure_time",
+      "arrival_time",
+      "duration_minutes",
+      "aircraft_type",
+      "stops"
+    ]
+  },
+  "raw_data": [
+    {
+      "flight_number": "EK505",
+      "airline_code": "EK",
+      "origin": "BOM",
+      "destination": "DXB",
+      "departure_time": "10:15",
+      "arrival_time": "12:45",
+      "duration_minutes": "210",
+      "aircraft_type": "Boeing 777-300ER",
+      "stops": "0"
+    },
+    {
+      "flight_number": "AI915",
+      "airline_code": "AI",
+      "origin": "BOM",
+      "destination": "DXB",
+      "departure_time": "07:30",
+      "arrival_time": "10:15",
+      "duration_minutes": "225",
+      "aircraft_type": "Airbus A321neo",
+      "stops": "0"
+    },
+    {
+      "flight_number": "6E1451",
+      "airline_code": "6E",
+      "origin": "BOM",
+      "destination": "DXB",
+      "departure_time": "16:45",
+      "arrival_time": "19:20",
+      "duration_minutes": "215",
+      "aircraft_type": "Airbus A320neo",
+      "stops": "0"
+    },
+    {
+      "flight_number": "EK501",
+      "airline_code": "EK",
+      "origin": "BOM",
+      "destination": "DXB",
+      "departure_time": "04:30",
+      "arrival_time": "07:00",
+      "duration_minutes": "210",
+      "aircraft_type": "Airbus A380-800",
+      "stops": "0"
+    },
+    {
+      "flight_number": "BA142",
+      "airline_code": "BA",
+      "origin": "DEL",
+      "destination": "LHR",
+      "departure_time": "03:15",
+      "arrival_time": "08:20",
+      "duration_minutes": "545",
+      "aircraft_type": "Boeing 787-9",
+      "stops": "0"
+    },
+    {
+      "flight_number": "AI161",
+      "airline_code": "AI",
+      "origin": "DEL",
+      "destination": "LHR",
+      "departure_time": "02:45",
+      "arrival_time": "07:30",
+      "duration_minutes": "525",
+      "aircraft_type": "Boeing 777-300ER",
+      "stops": "0"
+    },
+    {
+      "flight_number": "EK500",
+      "airline_code": "EK",
+      "origin": "DXB",
+      "destination": "BOM",
+      "departure_time": "21:55",
+      "arrival_time": "02:30",
+      "duration_minutes": "185",
+      "aircraft_type": "Boeing 777-300ER",
+      "stops": "0"
+    },
+    {
+      "flight_number": "QR557",
+      "airline_code": "QR",
+      "origin": "BOM",
+      "destination": "DOH",
+      "departure_time": "04:10",
+      "arrival_time": "05:35",
+      "duration_minutes": "235",
+      "aircraft_type": "Boeing 787-8",
+      "stops": "0"
+    }
+  ]
+}

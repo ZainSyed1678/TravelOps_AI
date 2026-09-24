@@ -1,0 +1,64 @@
+{
+  "document_id": "doc-json-airlines-c69cc777f581",
+  "source": "airlines.json",
+  "source_url": "C:\\Users\\user\\Desktop\\chidya_udi\\data\\raw\\airlines.json",
+  "version": "1.0",
+  "hash": "c69cc777f58112f4ca030379c54be1d41dd48a1e7c52baba0634b67cba34d025",
+  "created_at": "2026-09-24T06:22:26.250781Z",
+  "updated_at": "2026-09-24T06:22:26.250781Z",
+  "document_type": "AIRLINE_DATA",
+  "title": "Commercial Airlines Catalog",
+  "content": "[\n  {\n    \"id\": \"EK\",\n    \"icao_code\": \"UAE\",\n    \"name\": \"Emirates\",\n    \"country\": \"United Arab Emirates\",\n    \"alliance\": null,\n    \"logo_url\": \"https://assets.travelops.ai/logos/ek.png\",\n    \"hub_airport\": \"DXB\"\n  },\n  {\n    \"id\": \"AI\",\n    \"icao_code\": \"AIC\",\n    \"name\": \"Air India\",\n    \"country\": \"India\",\n    \"alliance\": \"Star Alliance\",\n    \"logo_url\": \"https://assets.travelops.ai/logos/ai.png\",\n    \"hub_airport\": \"DEL\"\n  },\n  {\n    \"id\": \"6E\",\n    \"icao_code\": \"IGO\",\n    \"name\": \"IndiGo\",\n    \"country\": \"India\",\n    \"alliance\": null,\n    \"logo_url\": \"https://assets.travelops.ai/logos/6e.png\",\n    \"hub_airport\": \"DEL\"\n  },\n  {\n    \"id\": \"BA\",\n    \"icao_code\": \"BAW\",\n    \"name\": \"British Airways\",\n    \"country\": \"United Kingdom\",\n    \"alliance\": \"Oneworld\",\n    \"logo_url\": \"https://assets.travelops.ai/logos/ba.png\",\n    \"hub_airport\": \"LHR\"\n  },\n  {\n    \"id\": \"QR\",\n    \"icao_code\": \"QTR\",\n    \"name\": \"Qatar Airways\",\n    \"country\": \"Qatar\",\n    \"alliance\": \"Oneworld\",\n    \"logo_url\": \"https://assets.travelops.ai/logos/qr.png\",\n    \"hub_airport\": \"DOH\"\n  }\n]",
+  "metadata": {
+    "format": "json",
+    "record_count": 5,
+    "is_list": true
+  },
+  "raw_data": [
+    {
+      "id": "EK",
+      "icao_code": "UAE",
+      "name": "Emirates",
+      "country": "United Arab Emirates",
+      "alliance": null,
+      "logo_url": "https://assets.travelops.ai/logos/ek.png",
+      "hub_airport": "DXB"
+    },
+    {
+      "id": "AI",
+      "icao_code": "AIC",
+      "name": "Air India",
+      "country": "India",
+      "alliance": "Star Alliance",
+      "logo_url": "https://assets.travelops.ai/logos/ai.png",
+      "hub_airport": "DEL"
+    },
+    {
+      "id": "6E",
+      "icao_code": "IGO",
+      "name": "IndiGo",
+      "country": "India",
+      "alliance": null,
+      "logo_url": "https://assets.travelops.ai/logos/6e.png",
+      "hub_airport": "DEL"
+    },
+    {
+      "id": "BA",
+      "icao_code": "BAW",
+      "name": "British Airways",
+      "country": "United Kingdom",
+      "alliance": "Oneworld",
+      "logo_url": "https://assets.travelops.ai/logos/ba.png",
+      "hub_airport": "LHR"
+    },
+    {
+      "id": "QR",
+      "icao_code": "QTR",
+      "name": "Qatar Airways",
+      "country": "Qatar",
+      "alliance": "Oneworld",
+      "logo_url": "https://assets.travelops.ai/logos/qr.png",
+      "hub_airport": "DOH"
+    }
+  ]
+}

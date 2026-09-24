@@ -1,0 +1,9 @@
+flight_number,airline_code,origin,destination,departure_time,arrival_time,duration_minutes,aircraft_type,stops
+EK505,EK,BOM,DXB,10:15,12:45,210,Boeing 777-300ER,0
+AI915,AI,BOM,DXB,07:30,10:15,225,Airbus A321neo,0
+6E1451,6E,BOM,DXB,16:45,19:20,215,Airbus A320neo,0
+EK501,EK,BOM,DXB,04:30,07:00,210,Airbus A380-800,0
+BA142,BA,DEL,LHR,03:15,08:20,545,Boeing 787-9,0
+AI161,AI,DEL,LHR,02:45,07:30,525,Boeing 777-300ER,0
+EK500,EK,DXB,BOM,21:55,02:30,185,Boeing 777-300ER,0
+QR557,QR,BOM,DOH,04:10,05:35,235,Boeing 787-8,0

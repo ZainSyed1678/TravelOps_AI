@@ -1,0 +1,26 @@
+{
+  "api_name": "Amadeus Flight Offers Search API",
+  "version": "v2",
+  "endpoint": "https://api.amadeus.com/v2/shopping/flight-offers",
+  "method": "GET / POST",
+  "authentication": "OAuth2 Client Credentials (Bearer Token)",
+  "description": "Returns available airline offers for given dates, origin, destination, and passenger parameters with real-time seat inventory.",
+  "query_parameters": {
+    "originLocationCode": "3-letter IATA code of origin airport (e.g. BOM)",
+    "destinationLocationCode": "3-letter IATA code of destination airport (e.g. DXB)",
+    "departureDate": "ISO date YYYY-MM-DD",
+    "adults": "Number of adult passengers (1-9)",
+    "travelClass": "ECONOMY, PREMIUM_ECONOMY, BUSINESS, FIRST",
+    "nonStop": "true/false boolean filter for direct flights"
+  },
+  "response_structure": {
+    "data": "List of flight offers with unique offer IDs",
+    "itineraries": "Flight segments, durations, and operating carriers",
+    "price": "Currency, total, and base fare amounts",
+    "travelerPricings": "Fare details and baggage allowances per passenger"
+  },
+  "rate_limits": {
+    "test_environment": "10 transactions per second",
+    "production_environment": "Dependent on commercial contract tier"
+  }
+}

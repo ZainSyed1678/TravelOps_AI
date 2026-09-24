@@ -29,7 +29,9 @@ class AmadeusClient:
         max_retries: int = 3,
     ):
         self.client_id = client_id if client_id is not None else settings.AMADEUS_CLIENT_ID
-        self.client_secret = client_secret if client_secret is not None else settings.AMADEUS_CLIENT_SECRET
+        self.client_secret = (
+            client_secret if client_secret is not None else settings.AMADEUS_CLIENT_SECRET
+        )
         self.environment = environment if environment is not None else settings.AMADEUS_ENVIRONMENT
         self.timeout = timeout
         self.max_retries = max_retries

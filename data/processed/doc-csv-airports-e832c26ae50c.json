@@ -1,0 +1,108 @@
+{
+  "document_id": "doc-csv-airports-e832c26ae50c",
+  "source": "airports.csv",
+  "source_url": "C:\\Users\\user\\Desktop\\chidya_udi\\data\\raw\\airports.csv",
+  "version": "1.0",
+  "hash": "e832c26ae50cd0bc03682983f584a8e2919314c2e5e3179480900d28444ade4e",
+  "created_at": "2026-09-24T06:22:26.248077Z",
+  "updated_at": "2026-09-24T06:22:26.248077Z",
+  "document_type": "AIRPORT_DATA",
+  "title": "Global Airports Directory",
+  "content": "# Global Airports Directory\nSource: airports.csv\nColumns: id, icao_code, name, city, country, latitude, longitude, timezone\nTotal Records: 8\n\n## Sample Records:\n1. id: BOM, icao_code: VABB, name: Chhatrapati Shivaji Maharaj International Airport, city: Mumbai, country: India, latitude: 19.0896, longitude: 72.8656, timezone: Asia/Kolkata\n2. id: DXB, icao_code: OMDB, name: Dubai International Airport, city: Dubai, country: United Arab Emirates, latitude: 25.2532, longitude: 55.3657, timezone: Asia/Dubai\n3. id: DEL, icao_code: VIDP, name: Indira Gandhi International Airport, city: Delhi, country: India, latitude: 28.5562, longitude: 77.1000, timezone: Asia/Kolkata\n4. id: LHR, icao_code: EGLL, name: London Heathrow Airport, city: London, country: United Kingdom, latitude: 51.4700, longitude: -0.4543, timezone: Europe/London\n5. id: JFK, icao_code: KJFK, name: John F. Kennedy International Airport, city: New York, country: United States, latitude: 40.6413, longitude: -73.7781, timezone: America/New_York",
+  "metadata": {
+    "format": "csv",
+    "record_count": 8,
+    "columns": [
+      "id",
+      "icao_code",
+      "name",
+      "city",
+      "country",
+      "latitude",
+      "longitude",
+      "timezone"
+    ]
+  },
+  "raw_data": [
+    {
+      "id": "BOM",
+      "icao_code": "VABB",
+      "name": "Chhatrapati Shivaji Maharaj International Airport",
+      "city": "Mumbai",
+      "country": "India",
+      "latitude": "19.0896",
+      "longitude": "72.8656",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "id": "DXB",
+      "icao_code": "OMDB",
+      "name": "Dubai International Airport",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "latitude": "25.2532",
+      "longitude": "55.3657",
+      "timezone": "Asia/Dubai"
+    },
+    {
+      "id": "DEL",
+      "icao_code": "VIDP",
+      "name": "Indira Gandhi International Airport",
+      "city": "Delhi",
+      "country": "India",
+      "latitude": "28.5562",
+      "longitude": "77.1000",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "id": "LHR",
+      "icao_code": "EGLL",
+      "name": "London Heathrow Airport",
+      "city": "London",
+      "country": "United Kingdom",
+      "latitude": "51.4700",
+      "longitude": "-0.4543",
+      "timezone": "Europe/London"
+    },
+    {
+      "id": "JFK",
+      "icao_code": "KJFK",
+      "name": "John F. Kennedy International Airport",
+      "city": "New York",
+      "country": "United States",
+      "latitude": "40.6413",
+      "longitude": "-73.7781",
+      "timezone": "America/New_York"
+    },
+    {
+      "id": "SIN",
+      "icao_code": "WSSS",
+      "name": "Singapore Changi Airport",
+      "city": "Singapore",
+      "country": "Singapore",
+      "latitude": "1.3644",
+      "longitude": "103.9915",
+      "timezone": "Asia/Singapore"
+    },
+    {
+      "id": "DOH",
+      "icao_code": "OTHH",
+      "name": "Hamad International Airport",
+      "city": "Doha",
+      "country": "Qatar",
+      "latitude": "25.2731",
+      "longitude": "51.6081",
+      "timezone": "Asia/Qatar"
+    },
+    {
+      "id": "BLR",
+      "icao_code": "VOBL",
+      "name": "Kempegowda International Airport",
+      "city": "Bengaluru",
+      "country": "India",
+      "latitude": "13.1986",
+      "longitude": "77.7066",
+      "timezone": "Asia/Kolkata"
+    }
+  ]
+}

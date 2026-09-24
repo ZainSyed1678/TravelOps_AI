@@ -1,0 +1,67 @@
+{
+  "document_id": "doc-json-air_india_fare_rules-9aa586b3c066",
+  "source": "air_india_fare_rules.json",
+  "source_url": "C:\\Users\\user\\Desktop\\chidya_udi\\data\\raw\\air_india_fare_rules.json",
+  "version": "1.0",
+  "hash": "9aa586b3c0660024bc59be7f34c38a78bb32c1a9deebc2b3949e92c2feffdcbf",
+  "created_at": "2026-09-24T06:22:26.259671Z",
+  "updated_at": "2026-09-24T06:22:26.259671Z",
+  "document_type": "FARE_RULE",
+  "title": "Air India Fare Rules",
+  "content": "{\n  \"airline\": \"Air India\",\n  \"airline_code\": \"AI\",\n  \"document_type\": \"FARE_RULES\",\n  \"version\": \"4.0\",\n  \"effective_date\": \"2024-04-01\",\n  \"fare_families\": [\n    {\n      \"name\": \"Super Value\",\n      \"cabin\": \"Economy\",\n      \"code\": \"SV\",\n      \"baggage_checkin_kg\": 15,\n      \"baggage_cabin_kg\": 7,\n      \"change_fee_inr\": 3500,\n      \"cancellation_fee_inr\": 4500,\n      \"is_refundable\": true,\n      \"seat_selection\": \"Chargeable\",\n      \"meal_included\": true\n    },\n    {\n      \"name\": \"Flex\",\n      \"cabin\": \"Economy\",\n      \"code\": \"FL\",\n      \"baggage_checkin_kg\": 25,\n      \"baggage_cabin_kg\": 7,\n      \"change_fee_inr\": 0,\n      \"cancellation_fee_inr\": 2000,\n      \"is_refundable\": true,\n      \"seat_selection\": \"Complimentary\",\n      \"meal_included\": true\n    },\n    {\n      \"name\": \"Executive Business\",\n      \"cabin\": \"Business\",\n      \"code\": \"BIZ\",\n      \"baggage_checkin_kg\": 35,\n      \"baggage_cabin_kg\": 10,\n      \"change_fee_inr\": 0,\n      \"cancellation_fee_inr\": 1000,\n      \"is_refundable\": true,\n      \"seat_selection\": \"Complimentary Priority\",\n      \"meal_included\": true,\n      \"lounge_access\": true\n    }\n  ],\n  \"disruption_rules\": {\n    \"carrier_cancelled\": \"Full 100% refund or free rebooking within 14 days\",\n    \"delay_exceeding_4_hours\": \"Option to cancel for full refund or take alternate partner flight\"\n  }\n}",
+  "metadata": {
+    "format": "json",
+    "record_count": 1,
+    "is_list": false
+  },
+  "raw_data": {
+    "airline": "Air India",
+    "airline_code": "AI",
+    "document_type": "FARE_RULES",
+    "version": "4.0",
+    "effective_date": "2024-04-01",
+    "fare_families": [
+      {
+        "name": "Super Value",
+        "cabin": "Economy",
+        "code": "SV",
+        "baggage_checkin_kg": 15,
+        "baggage_cabin_kg": 7,
+        "change_fee_inr": 3500,
+        "cancellation_fee_inr": 4500,
+        "is_refundable": true,
+        "seat_selection": "Chargeable",
+        "meal_included": true
+      },
+      {
+        "name": "Flex",
+        "cabin": "Economy",
+        "code": "FL",
+        "baggage_checkin_kg": 25,
+        "baggage_cabin_kg": 7,
+        "change_fee_inr": 0,
+        "cancellation_fee_inr": 2000,
+        "is_refundable": true,
+        "seat_selection": "Complimentary",
+        "meal_included": true
+      },
+      {
+        "name": "Executive Business",
+        "cabin": "Business",
+        "code": "BIZ",
+        "baggage_checkin_kg": 35,
+        "baggage_cabin_kg": 10,
+        "change_fee_inr": 0,
+        "cancellation_fee_inr": 1000,
+        "is_refundable": true,
+        "seat_selection": "Complimentary Priority",
+        "meal_included": true,
+        "lounge_access": true
+      }
+    ],
+    "disruption_rules": {
+      "carrier_cancelled": "Full 100% refund or free rebooking within 14 days",
+      "delay_exceeding_4_hours": "Option to cancel for full refund or take alternate partner flight"
+    }
+  }
+}
