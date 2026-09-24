@@ -95,7 +95,7 @@ flowchart TD
 - [x] **Phase 11 — Evaluation System** (RAG precision@k, MRR, ranking NDCG@k, and agent safety compliance benchmarks)
 - [x] **Phase 12 — Observability** (Prometheus custom metrics & Grafana dashboard provisioning)
 - [x] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
-- [ ] **Phase 14 — Frontend Console** (React assistant, agent execution traces, provenance links)
+- [x] **Phase 14 — Frontend Console** (React assistant, multi-agent execution traces, ranked offer cards, grounded citations, HITL safety queue & modal)
 - [ ] **Phase 15 — Production API** (Validated REST v1 endpoints with OpenAPI 3.1)
 - [ ] **Phase 16 — Security** (Prompt injection defenses, tool sandboxing, audit trails)
 - [ ] **Phase 17 — Automated Testing** (Unit, integration, and E2E agent scenario test suite)
@@ -340,13 +340,18 @@ flowchart TD
       ```bash
       curl -X DELETE "http://localhost:8000/api/v1/cache/flush?namespace=travelops:flights"
       ```
-    - Programmatic `@cached` decorator usage:
-      ```python
-      from app.caching import cached
-
-      @cached(ttl_seconds=300, namespace="travelops:flights", tags=["flight_search"])
-      async def get_flight_offers(route: str):
-          ...
+14. **Frontend Console (React 18 + Vite + TypeScript + Tailwind CSS):**
+    - Built-in operational console available at `http://localhost:3000`:
+      - **Agent Chat Console**: Conversational travel assistant with real-time intent routing chips, structured flight offer cards with ML ranking match scores, hotel recommendation cards with amenity tags, and grounded document citations with provenance similarity scores.
+      - **Multi-Agent Trace Viewer**: Visual accordion inspecting LangGraph node transitions, intent classifications, subagent execution steps, and structured tool outputs.
+      - **Human-in-the-Loop (HITL) Queue & Modal**: Dedicated operations tab displaying pending high-risk actions (bookings, cancellations, rebookings). Modal presents parameter diffs, operator overrides, justification notes, and execute/reject actions calling the backend safety barrier endpoints.
+      - **System Diagnostics**: Live health readiness probes, Redis cache telemetry (hit rate, hit/miss counters, memory stats, cache namespace purge), and direct launch links to Grafana (`:3001`), Prometheus (`:9090`), and Swagger API docs (`:8000/docs`).
+    - Build & run frontend locally:
+      ```bash
+      cd frontend
+      npm install
+      npm run build
+      npm run dev
       ```
 
 
