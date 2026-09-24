@@ -88,8 +88,7 @@ flowchart TD
 - [x] **Phase 4 — Production RAG** (Structure-aware chunking, embeddings, Qdrant hybrid retrieval, reranking, citations, POST /rag/query)
 - [x] **Phase 5 — Neo4j Knowledge Graph** (12 entity types, schema constraints, multi-hop Cypher traversals, in-memory graph fallback, API endpoints, CLI sync runner)
 - [x] **Phase 6 — GraphRAG** (Entity extraction, Knowledge Graph subgraph traversal, Qdrant vector fusion, grounded generation, POST /graphrag/query)
-- [x] **Phase 7 — Travel ML** (Gradient Boosted flight ranker, feature attribution explainability, route fare anomaly detection, POST /ml/rank-flights, POST /ml/fare-anomaly)
-- [ ] **Phase 8 — Agentic AI** (LangGraph state machine: Orchestrator, Search, Policy, Booking nodes)
+- [x] **Phase 8 — Agentic AI** (LangGraph multi-agent state machine across Search, Policy QA, Disruption Rebooking, and Hotel discovery)
 - [ ] **Phase 9 — Human-in-the-Loop** (Strict confirmation checkpoints for booking/cancellation/rebooking)
 - [ ] **Phase 10 — Agent Memory** (PostgreSQL persistent memory + Redis short-term session cache)
 - [ ] **Phase 11 — Evaluation System** (RAG precision@k, agent tool accuracy, ranking NDCG benchmarks)
@@ -194,3 +193,22 @@ flowchart TD
        -H "Content-Type: application/json" \
        -d '{"offers": [...], "preferences": {"prefer_nonstop": true, "preferred_airline": "EK"}}'
      ```
+
+8. **Agentic AI Conversational State Machine:**
+   - Multi-agent conversational search query:
+     ```bash
+     curl -X POST http://localhost:8000/api/v1/agents/chat \
+       -H "Content-Type: application/json" \
+       -d '{"query": "Find flights from Mumbai to Dubai next week"}'
+     ```
+   - Policy grounding & Q&A via LangGraph:
+     ```bash
+     curl -X POST http://localhost:8000/api/v1/agents/chat \
+       -H "Content-Type: application/json" \
+       -d '{"query": "What is the cancellation penalty for Air India?"}'
+     ```
+   - Inspect active agent thread state and trace:
+     ```bash
+     curl http://localhost:8000/api/v1/agents/state/{thread_id}
+     ```
+

@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from app.api.endpoints import graph, graphrag, health, ml, rag
+from app.api.endpoints import agents, graph, graphrag, health, ml, rag
 
 api_router = APIRouter()
 
@@ -20,3 +20,6 @@ api_router.include_router(graphrag.router, prefix="/graphrag", tags=["GraphRAG"]
 
 # Machine Learning & Ranking
 api_router.include_router(ml.router, prefix="/ml", tags=["Travel Machine Learning"])
+
+# Agentic AI Workflows
+api_router.include_router(agents.router, prefix="/agents", tags=["Agentic AI"])
