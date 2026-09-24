@@ -91,7 +91,7 @@ flowchart TD
 - [x] **Phase 7 — Travel ML** (Gradient Boosted flight ranker, feature attribution explainability, route fare anomaly detection, POST /ml/rank-flights, POST /ml/fare-anomaly)
 - [x] **Phase 8 — Agentic AI** (LangGraph multi-agent state machine across Search, Policy QA, Disruption Rebooking, and Hotel discovery)
 - [x] **Phase 9 — Human-in-the-Loop** (Strict confirmation checkpoints for booking/cancellation/rebooking)
-- [ ] **Phase 10 — Agent Memory** (PostgreSQL persistent memory + Redis short-term session cache)
+- [x] **Phase 10 — Agent Memory** (PostgreSQL persistent memory + Redis short-term session cache)
 - [ ] **Phase 11 — Evaluation System** (RAG precision@k, agent tool accuracy, ranking NDCG benchmarks)
 - [ ] **Phase 12 — Observability** (Prometheus custom metrics & Grafana dashboard provisioning)
 - [ ] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
@@ -238,4 +238,29 @@ flowchart TD
      ```bash
      curl http://localhost:8000/api/v1/agents/hitl/audit/trail
      ```
+
+10. **Agent Memory (Dual-Tier Redis Hot Tier + PostgreSQL Durable Tier):**
+    - List persistent conversational sessions:
+      ```bash
+      curl http://localhost:8000/api/v1/agents/memory/sessions
+      ```
+    - Retrieve chronological conversation history:
+      ```bash
+      curl http://localhost:8000/api/v1/agents/memory/sessions/{thread_id}/history
+      ```
+    - Retrieve learned personalized traveler memory profile:
+      ```bash
+      curl http://localhost:8000/api/v1/agents/memory/profile/{user_id}
+      ```
+    - Record or update personalized traveler preference fact:
+      ```bash
+      curl -X POST http://localhost:8000/api/v1/agents/memory/profile/{user_id} \
+        -H "Content-Type: application/json" \
+        -d '{"key": "preferred_airline", "value": "Emirates", "confidence": 1.0}'
+      ```
+    - Clear conversation session from cache and database:
+      ```bash
+      curl -X DELETE http://localhost:8000/api/v1/agents/memory/sessions/{thread_id}
+      ```
+
 

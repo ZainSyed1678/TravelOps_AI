@@ -2,6 +2,8 @@
 
 from app.models.base import Base, TimestampMixin, utc_now
 from app.models.entities import (
+    AgentMessage,
+    AgentSession,
     Airline,
     Airport,
     Booking,
@@ -17,6 +19,7 @@ from app.models.entities import (
     Supplier,
     TravelDocument,
     Traveler,
+    TravelerMemoryProfile,
     Trip,
     User,
 )
@@ -42,4 +45,7 @@ __all__ = [
     "Passenger",
     "HotelBooking",
     "Payment",
+    "AgentSession",
+    "AgentMessage",
+    "TravelerMemoryProfile",
 ]

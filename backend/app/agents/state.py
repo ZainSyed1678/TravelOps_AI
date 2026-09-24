@@ -40,6 +40,7 @@ class AgentChatRequest(BaseModel):
 
     query: str = Field(..., min_length=2, description="User instruction or question")
     thread_id: str | None = Field(None, description="Session thread ID for conversation memory")
+    user_id: str | None = Field(None, description="Optional traveler user ID for personalized memory")
     preferences: UserPreferences | None = Field(default_factory=UserPreferences, description="Traveler preferences")
 
 

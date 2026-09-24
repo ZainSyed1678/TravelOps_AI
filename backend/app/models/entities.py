@@ -495,6 +495,78 @@ class Payment(Base, TimestampMixin):
     booking: Mapped["Booking"] = relationship("Booking", back_populates="payments")
 
 
+# ==============================================================================
+# 6. Agent Memory & Conversational Sessions
+# ==============================================================================
+
+
+class AgentSession(Base, TimestampMixin):
+    """Persistent agent conversation session and thread state."""
+
+    __tablename__ = "agent_sessions"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=generate_uuid)
+    thread_id: Mapped[str] = mapped_column(String(64), unique=True, index=True, nullable=False)
+    user_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True
+    )
+    workflow: Mapped[str] = mapped_column(String(50), default="SEARCH", nullable=False)
+    status: Mapped[str] = mapped_column(
+        String(50), default="ACTIVE", nullable=False
+    )  # ACTIVE, COMPLETED, ARCHIVED
+    state_metadata: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict, nullable=False)
+
+    # Relationships
+    user: Mapped[Optional["User"]] = relationship("User")
+    messages: Mapped[list["AgentMessage"]] = relationship(
+        "AgentMessage",
+        back_populates="session",
+        cascade="all, delete-orphan",
+        order_by="AgentMessage.created_at",
+        lazy="selectin",
+    )
+
+
+class AgentMessage(Base, TimestampMixin):
+    """Individual conversational message within an agent session."""
+
+    __tablename__ = "agent_messages"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=generate_uuid)
+    session_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("agent_sessions.id", ondelete="CASCADE"), nullable=False
+    )
+    role: Mapped[str] = mapped_column(
+        String(20), nullable=False
+    )  # user, assistant, system, tool
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    tokens: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    metadata_json: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict, nullable=False)
+
+    # Relationships
+    session: Mapped["AgentSession"] = relationship("AgentSession", back_populates="messages")
+
+
+class TravelerMemoryProfile(Base, TimestampMixin):
+    """Long-term personalized memory and learned traveler preferences."""
+
+    __tablename__ = "traveler_memory_profiles"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=generate_uuid)
+    user_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=True
+    )
+    preference_key: Mapped[str] = mapped_column(
+        String(100), index=True, nullable=False
+    )  # preferred_airline, seat_preference, home_airport, cabin_class
+    preference_value: Mapped[str] = mapped_column(String(255), nullable=False)
+    confidence: Mapped[float] = mapped_column(Float, default=1.0, nullable=False)
+    source_session_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
+
+    # Relationships
+    user: Mapped[Optional["User"]] = relationship("User")
+
+
 # Index definitions for high-frequency queries
 Index(
     "idx_flight_origin_dest_date",
@@ -504,3 +576,11 @@ Index(
 )
 Index("idx_booking_user_status", Booking.user_id, Booking.status)
 Index("idx_policy_entity_type", Policy.entity_type, Policy.entity_id, Policy.policy_type)
+Index("idx_agent_session_user_status", AgentSession.user_id, AgentSession.status)
+Index("idx_agent_message_session", AgentMessage.session_id, AgentMessage.created_at)
+Index(
+    "idx_traveler_profile_user_key",
+    TravelerMemoryProfile.user_id,
+    TravelerMemoryProfile.preference_key,
+)
+
