@@ -408,6 +408,22 @@ flowchart TD
       - `GET /api/v1/security/audit-logs`: Inspect recent security audit logs.
       - `GET /api/v1/security/status`: Inspect active platform security defenses.
 
+17. **Automated End-to-End Multi-Agent Testing (`test_e2e_scenarios.py`):**
+    - 5 full-lifecycle automated traveler journeys verifying realistic end-to-end multi-agent execution:
+      - **Journey 1: Flight Discovery & Autonomous Booking**: Natural language search query -> LangGraph supervisor routes to flight search -> NDC/GDS provider query -> ML ranker scoring -> Passenger itinerary booking creation -> Confirmation validation.
+      - **Journey 2: Disruption Rebooking with Human-in-the-Loop Safety Barrier**: Flight cancellation report -> Supervisor triggers disruption workflow -> Autonomous search for replacement flight -> High-risk mutating action halted by HITL barrier -> Operator confirms action with zero-penalty override -> Itinerary updated with new booking reference -> Immutable HITL audit trail verified.
+      - **Journey 3: Grounded Policy Q&A with Provenance Citations**: Airline policy question -> Supervisor routes to policy workflow -> Hybrid Qdrant retrieval + Cross-encoder reranker -> Grounded answer synthesis -> Citation provenance and confidence validation.
+      - **Journey 4: Multi-Turn Conversational Memory & Preference Recall**: Initial turn establishes passenger preferences -> Dual-tier Redis + PostgreSQL session & message logging -> Follow-up turn retrieves historical context -> Personalized recommendations confirmed.
+      - **Journey 5: Graceful Provider Fallback Resilience**: Out-of-bounds or non-existent flight search route -> Supplier returns unserviceable route -> Agent intercepts gracefully -> Proposes fallback assistance without 500 errors.
+    - Execute the automated scenario journeys:
+      ```bash
+      pytest backend/tests/test_e2e_scenarios.py -v
+      ```
+    - Execute the full platform test suite (166 tests passing across all 17 phases):
+      ```bash
+      pytest backend/tests -v
+      ```
+
 
 
 

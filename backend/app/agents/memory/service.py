@@ -160,6 +160,10 @@ class AgentMemoryService:
                 logger.warning(f"[Memory] Failed to delete session from DB: {e}")
         return cache_deleted or db_deleted
 
+    def clear(self) -> None:
+        """Clear session cache state (primarily for test resets)."""
+        self.cache.clear()
+
 
 # Global singleton instance
 memory_service = AgentMemoryService()
