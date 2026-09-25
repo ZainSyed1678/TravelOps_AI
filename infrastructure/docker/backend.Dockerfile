@@ -23,7 +23,7 @@ WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONPATH=/app/backend \
+    PYTHONPATH=/app:/app/backend \
     PORT=8000
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -38,9 +38,12 @@ RUN groupadd -r travelops && useradd -r -g travelops -d /app -s /sbin/nologin tr
 COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
 
-# Copy backend application code
+# Copy backend application code, data, and ML artifacts
 COPY backend /app/backend
+COPY ingestion /app/ingestion
+COPY ml /app/ml
 COPY data /app/data
+COPY scripts /app/scripts
 
 RUN chown -R travelops:travelops /app
 
