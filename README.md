@@ -96,7 +96,7 @@ flowchart TD
 - [x] **Phase 12 — Observability** (Prometheus custom metrics & Grafana dashboard provisioning)
 - [x] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
 - [x] **Phase 14 — Frontend Console** (React assistant, multi-agent execution traces, ranked offer cards, grounded citations, HITL safety queue & modal)
-- [ ] **Phase 15 — Production API** (Validated REST v1 endpoints with OpenAPI 3.1)
+- [x] **Phase 15 — Production API** (OpenAPI 3.1, RFC 7807 problem details, correlation ID propagation, sliding-window rate limiting, flights/bookings/system endpoints)
 - [ ] **Phase 16 — Security** (Prompt injection defenses, tool sandboxing, audit trails)
 - [ ] **Phase 17 — Automated Testing** (Unit, integration, and E2E agent scenario test suite)
 - [ ] **Phase 18 — CI/CD Pipeline** (GitHub Actions automated test, lint, and build verification)
@@ -353,6 +353,38 @@ flowchart TD
       npm run build
       npm run dev
       ```
+
+15. **Production API (OpenAPI 3.1 & RFC 7807 Error Normalization):**
+    - **OpenAPI 3.1 Schema & Swagger UI**: Available at `http://localhost:8000/docs` and `/openapi.json` with structured tag groupings, parameter descriptions, and response envelopes.
+    - **Standardized Response Envelope (`ApiResponse[T]`)**:
+      ```json
+      {
+        "success": true,
+        "status_code": 200,
+        "message": "Flight routes retrieved successfully",
+        "data": [...],
+        "meta": {
+          "correlation_id": "c1f7a0...",
+          "timestamp": "2026-09-25T07:15:00Z",
+          "version": "0.1.0",
+          "total": 4
+        }
+      }
+      ```
+    - **RFC 7807 Problem Details Normalization**: All errors (404, 422, 429, 500) return `application/problem+json` with `type`, `title`, `status`, `detail`, `instance`, and `correlation_id`.
+    - **Sliding-Window Rate Limiting**:
+      - Enforces throughput boundaries (configurable via `RATE_LIMIT_DEFAULT_REQUESTS`, default 120 req/min).
+      - Returns RFC headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`.
+      - On threshold breach: HTTP 429 Too Many Requests with `Retry-After: <seconds>` header.
+    - **Distributed Correlation ID Propagation**: Every request accepts or generates `X-Correlation-ID` and `X-Request-ID`, tracked via Python async `contextvars` and logged across all telemetry.
+    - **Production REST Endpoints**:
+      - `GET /api/v1/system/info`: Platform capability introspection and datastore status.
+      - `GET /api/v1/system/ping`: Ultra-low latency gateway health probe.
+      - `POST /api/v1/flights/search`: Flight search with integrated GDS/NDC provider dispatch and ML ranking.
+      - `GET /api/v1/flights/routes`: Major served flight routes with carrier coverage.
+      - `GET /api/v1/flights/status/{flight_number}`: Real-time operational flight status.
+      - `GET /api/v1/bookings`: Transactional reservation query with pagination and filters.
+      - `POST /api/v1/bookings`: Resilient reservation creation with passenger manifests.
 
 
 

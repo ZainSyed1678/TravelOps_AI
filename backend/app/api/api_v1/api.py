@@ -2,13 +2,33 @@
 
 from fastapi import APIRouter
 
-from app.api.endpoints import agents, evaluation, graph, graphrag, health, ml, rag
+from app.api.endpoints import (
+    agents,
+    bookings,
+    evaluation,
+    flights,
+    graph,
+    graphrag,
+    health,
+    ml,
+    rag,
+    system,
+)
 from app.caching.router import router as cache_router
 
 api_router = APIRouter()
 
+# System capabilities & status
+api_router.include_router(system.router, prefix="/system", tags=["System & Diagnostics"])
+
 # Health and diagnostics
 api_router.include_router(health.router, tags=["Health & Diagnostics"])
+
+# Flight operations & search
+api_router.include_router(flights.router, prefix="/flights", tags=["Flight Operations"])
+
+# Bookings & Reservations
+api_router.include_router(bookings.router, prefix="/bookings", tags=["Bookings & Reservations"])
 
 # RAG Knowledge Retrieval
 api_router.include_router(rag.router, prefix="/rag", tags=["Production RAG"])

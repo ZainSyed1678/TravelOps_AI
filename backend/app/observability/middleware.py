@@ -56,8 +56,16 @@ class ObservabilityMiddleware(BaseHTTPMiddleware):
     """FastAPI middleware capturing Prometheus metrics and distributed correlation IDs."""
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
-        correlation_id = request.headers.get("X-Request-ID", str(uuid.uuid4()))
+        correlation_id = (
+            request.headers.get("X-Correlation-ID")
+            or request.headers.get("X-Request-ID")
+            or str(uuid.uuid4())
+        )
         request.state.correlation_id = correlation_id
+        from app.core.context import set_correlation_id
+
+        set_correlation_id(correlation_id)
+
         normalized_endpoint = normalize_path(request.url.path)
         method = request.method
 
@@ -78,6 +86,7 @@ class ObservabilityMiddleware(BaseHTTPMiddleware):
             )
 
             # Response tracing headers
+            response.headers["X-Correlation-ID"] = correlation_id
             response.headers["X-Request-ID"] = correlation_id
             response.headers["X-Response-Time-Ms"] = str(round(duration * 1000, 2))
 

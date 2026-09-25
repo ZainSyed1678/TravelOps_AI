@@ -109,5 +109,11 @@ class Settings(BaseSettings):
     METRICS_ENABLED: bool = True
     LOG_LEVEL: str = "INFO"
 
+    # API Rate Limiting & Throttling
+    RATE_LIMIT_ENABLED: bool = True
+    RATE_LIMIT_DEFAULT_REQUESTS: int = 120
+    RATE_LIMIT_WINDOW_SECONDS: int = 60
+    API_DOCS_ENABLED: bool = True
+
 
 settings = Settings()
