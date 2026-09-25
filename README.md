@@ -424,7 +424,20 @@ flowchart TD
       pytest backend/tests -v
       ```
 
-
-
-
-
+18. **CI/CD Pipeline & Release Automation (`.github/workflows/`):**
+    - **Continuous Integration Workflow (`.github/workflows/ci.yml`)**:
+      - `lint`: Automated Ruff linting and formatting validation on Python 3.11.
+      - `backend-test`: Matrix test execution across Python 3.11 and 3.12, running all 166 unit, integration, and E2E tests with pytest-cov code coverage report artifact generation.
+      - `ai-eval-benchmarks`: Strict quality gate executing `scripts/run_evaluations.py --strict`, enforcing RAG precision/faithfulness, NDCG flight ranking, intent classification accuracy, and 100% HITL safety compliance.
+      - `frontend-build`: Node.js 20.x environment running TypeScript typechecking and Vite production asset bundling.
+      - `docker-validation`: Multi-stage Dockerfile build validation for backend and frontend images, plus Docker Compose syntax validation.
+    - **Continuous Delivery Workflow (`.github/workflows/cd.yml`)**:
+      - Triggered on semantic version tags (`v*.*.*`) and manual dispatch.
+      - Builds multi-arch OCI containers (`linux/amd64`, `linux/arm64`) with GitHub Container Registry (GHCR) integration.
+      - Staging deployment with automated health check verification.
+      - Production release gate with blue/green deployment orchestration.
+    - **Local CI Verification Script (`scripts/verify_ci.py`)**:
+      - Replicates the complete CI pipeline locally before committing to git:
+        ```bash
+        python scripts/verify_ci.py
+        ```
