@@ -441,3 +441,15 @@ flowchart TD
         ```bash
         python scripts/verify_ci.py
         ```
+
+19. **Production Documentation & Operational Runbooks (`docs/`):**
+    - **System Architecture Specification (`docs/ARCHITECTURE.md`)**: Comprehensive system architecture, multi-tier data flow diagram, subsystem boundaries, and horizontal scaling / HA strategies.
+    - **Architectural Decision Records (`docs/ADR/`)**:
+      - `0001-hybrid-rag-graphrag-fusion.md`: Dense vector (Qdrant) + Knowledge Graph (Neo4j) fusion rationale.
+      - `0002-hitl-safety-barrier-architecture.md`: Deterministic execution halt on financial mutations.
+      - `0003-dual-tier-agent-memory.md`: Redis ephemeral cache + PostgreSQL durable session persistence.
+      - `0004-gbdt-flight-ranking-and-explainability.md`: Low-latency ML flight ranking with feature attribution.
+      - `0005-ai-security-injection-guard-sandboxing.md`: Prompt injection defenses and tool boundary isolation.
+    - **Production Operations Runbook (`docs/OPERATIONS_RUNBOOK.md`)**: Service port matrix, deployment SOPs, database migrations, backup/recovery, and incident response playbooks for datastore degradation, HITL queue backlogs, and adversarial attacks.
+    - **API Reference Specification (`docs/API_REFERENCE.md`)**: Complete REST catalog across Gateway Probes, Agents, Memory, HITL, GraphRAG, ML, Cache, and Security.
+
