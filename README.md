@@ -453,3 +453,24 @@ flowchart TD
     - **Production Operations Runbook (`docs/OPERATIONS_RUNBOOK.md`)**: Service port matrix, deployment SOPs, database migrations, backup/recovery, and incident response playbooks for datastore degradation, HITL queue backlogs, and adversarial attacks.
     - **API Reference Specification (`docs/API_REFERENCE.md`)**: Complete REST catalog across Gateway Probes, Agents, Memory, HITL, GraphRAG, ML, Cache, and Security.
 
+20. **Final Integration & Platform Demonstration (`scripts/demo_system.py`):**
+    - **End-to-End Platform Demonstration Runner**:
+      - Showcases all 10 core TravelOps AI subsystems in an interactive console workflow:
+        1. Gateway Health & System Capability Probes (`/health`, `/ready`, `/api/v1/system/info`)
+        2. GDS/NDC Provider Flight Search & GBDT Machine Learning Ranking (`/api/v1/flights/search`)
+        3. Route Fare Price Anomaly Intelligence (Deal vs Normal vs Surge) (`/api/v1/ml/fare-anomaly`)
+        4. Hybrid GraphRAG Policy Synthesis with Citation Provenance (`/api/v1/graphrag/query`)
+        5. Neo4j Knowledge Graph Multi-Hop Traversal (`/api/v1/graph/airline/EK/policies`)
+        6. Conversational Multi-Agent Routing & Dual-Tier Session Memory (`/api/v1/agents/chat`)
+        7. Human-in-the-Loop (HITL) Execution Safety Gate & Operator Approval (`/api/v1/agents/hitl/*`)
+        8. AI Security Delimiter Hijacking & Injection Neutralization (`/api/v1/security/inspect-prompt`)
+        9. Distributed Tag-Based Cache Invalidation & Telemetry (`/api/v1/cache/stats`, `/invalidate`)
+        10. Prometheus Observability Metrics Telemetry Scrape (`/metrics`)
+    - Run the platform demonstration script:
+      ```bash
+      # Hermetic embedded mode (works immediately without external services):
+      python scripts/demo_system.py
+
+      # Live network mode against running Docker cluster:
+      python scripts/demo_system.py --live
+      ```
