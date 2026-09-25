@@ -97,7 +97,7 @@ flowchart TD
 - [x] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
 - [x] **Phase 14 — Frontend Console** (React assistant, multi-agent execution traces, ranked offer cards, grounded citations, HITL safety queue & modal)
 - [x] **Phase 15 — Production API** (OpenAPI 3.1, RFC 7807 problem details, correlation ID propagation, sliding-window rate limiting, flights/bookings/system endpoints)
-- [ ] **Phase 16 — Security** (Prompt injection defenses, tool sandboxing, audit trails)
+- [x] **Phase 16 — Security** (Prompt injection defenses, tool sandboxing, audit trails, defensive headers, SQLi/XSS filtering)
 - [ ] **Phase 17 — Automated Testing** (Unit, integration, and E2E agent scenario test suite)
 - [ ] **Phase 18 — CI/CD Pipeline** (GitHub Actions automated test, lint, and build verification)
 - [ ] **Phase 19 — Production Documentation** (Complete architecture specifications and runbooks)
@@ -385,6 +385,28 @@ flowchart TD
       - `GET /api/v1/flights/status/{flight_number}`: Real-time operational flight status.
       - `GET /api/v1/bookings`: Transactional reservation query with pagination and filters.
       - `POST /api/v1/bookings`: Resilient reservation creation with passenger manifests.
+
+16. **Security Layer & Adversarial Guardrails:**
+    - **Prompt Injection & Jailbreak Defense (`InjectionGuard`)**:
+      - Inspects incoming prompts before agent execution for direct instruction overrides, DAN persona exploits, system prompt leaks, and delimiter hijacking (`<|im_start|>`, `[INST]`, `<<SYS>>`).
+      - Neutralizes threat vectors and returns structured `SECURITY_BLOCKED` response without executing LLM instructions.
+    - **Tool Execution Sandboxing (`ToolSandbox`)**:
+      - Authorized tool whitelist enforcement.
+      - Path traversal defenses blocking `../`, `..\\`, `/etc`, and absolute path probes.
+      - Shell metacharacter prevention (`;`, `|`, `&&`, `` ` ``, `$()`).
+      - Numeric boundary confinement on passenger counts, budgets, and dates.
+    - **Input Sanitization & Attack Probes (`sanitizer`)**:
+      - HTML/XSS tag stripping and Unicode NFKC normalization.
+      - SQL injection probe detection on query strings with automatic 400 Bad Request rejection.
+    - **Defensive HTTP Security Headers**:
+      - Automatic injection of `Content-Security-Policy`, `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `X-XSS-Protection`.
+    - **Security Audit Logger (`SecurityAuditLogger`)**:
+      - In-memory append-only security event ledger recording timestamp, severity, client IP, correlation ID, and SHA-256 payload hashes.
+    - **Security Endpoints**:
+      - `POST /api/v1/security/inspect-prompt`: Test prompts for injection risks and confidence scores.
+      - `POST /api/v1/security/validate-tool`: Test tool calls against sandbox boundary constraints.
+      - `GET /api/v1/security/audit-logs`: Inspect recent security audit logs.
+      - `GET /api/v1/security/status`: Inspect active platform security defenses.
 
 
 

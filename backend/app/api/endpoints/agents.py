@@ -38,6 +38,36 @@ async def agent_chat(
     request: AgentChatRequest,
     db: AsyncSession = Depends(get_db_session),
 ) -> AgentChatResponse:
+    from app.security.audit import security_audit_logger
+    from app.security.injection_guard import injection_guard
+
+    # 1. Inspect prompt for adversarial injection or jailbreaks
+    inspection = injection_guard.inspect(request.query)
+    if not inspection.is_safe:
+        security_audit_logger.record_event(
+            event_type="PROMPT_INJECTION_DETECTED",
+            severity="HIGH",
+            details={
+                "category": inspection.risk_category,
+                "matched_patterns": inspection.matched_patterns,
+                "risk_score": inspection.risk_score,
+                "thread_id": request.thread_id,
+            },
+            raw_payload=request.query,
+        )
+        return AgentChatResponse(
+            thread_id=request.thread_id or "sec_blocked",
+            workflow="SECURITY_BLOCKED",
+            response_message=(
+                "I cannot process this instruction as it violates TravelOps AI security policies "
+                f"({inspection.risk_category}). Please phrase your travel request normally."
+            ),
+            trace=[f"Security Guardrail: Intercepted prompt injection [{inspection.risk_category}]"],
+            requires_human_confirmation=False,
+            confirmation_status="NONE",
+        )
+
+    # 2. Execute safe multi-agent workflow
     try:
         return await agent_orchestrator.chat_async(request, db=db)
     except Exception as exc:

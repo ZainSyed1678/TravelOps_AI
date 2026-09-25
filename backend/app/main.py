@@ -102,6 +102,10 @@ OPENAPI_TAGS = [
         "description": "Redis distributed cache metrics, telemetry, and tag-based atomic invalidation.",
     },
     {
+        "name": "Security & Guardrails",
+        "description": "Adversarial prompt injection detection, tool execution sandboxing, and security audit logs.",
+    },
+    {
         "name": "Observability",
         "description": "Prometheus metrics exposition endpoint (/metrics) for Grafana scraping.",
     },
@@ -110,6 +114,8 @@ OPENAPI_TAGS = [
 
 def create_application() -> FastAPI:
     """Instantiate and configure the FastAPI application."""
+    from app.security.middleware import SecurityHeadersMiddleware
+
     app = FastAPI(
         title=settings.PROJECT_NAME,
         version=settings.VERSION,
@@ -126,6 +132,9 @@ def create_application() -> FastAPI:
     app.add_exception_handler(RequestValidationError, validation_exception_handler)
     app.add_exception_handler(StarletteHTTPException, http_exception_handler)
     app.add_exception_handler(Exception, unhandled_exception_handler)
+
+    # Security Defensive Headers & Input Inspection Middleware
+    app.add_middleware(SecurityHeadersMiddleware)
 
     # Rate Limiting Middleware
     app.add_middleware(RateLimitMiddleware)

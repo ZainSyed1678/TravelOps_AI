@@ -12,6 +12,7 @@ from app.api.endpoints import (
     health,
     ml,
     rag,
+    security,
     system,
 )
 from app.caching.router import router as cache_router
@@ -50,3 +51,6 @@ api_router.include_router(evaluation.router, prefix="/eval", tags=["AI Evaluatio
 
 # Caching Diagnostics & Invalidation
 api_router.include_router(cache_router, prefix="/cache", tags=["Distributed Caching"])
+
+# Security & Guardrails
+api_router.include_router(security.router, prefix="/security", tags=["Security & Guardrails"])
