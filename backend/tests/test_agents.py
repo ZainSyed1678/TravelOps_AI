@@ -34,7 +34,9 @@ def test_supervisor_intent_classification():
     assert res_pol["workflow"] == "POLICY"
 
     # 3. Disruption
-    res_disrupt = supervisor_node({"query": "My flight EK505 was cancelled, please rebook booking BK-EK505-001"})
+    res_disrupt = supervisor_node(
+        {"query": "My flight EK505 was cancelled, please rebook booking BK-EK505-001"}
+    )
     assert res_disrupt["workflow"] == "DISRUPTION_REBOOKING"
 
     # 4. Hotel
@@ -70,7 +72,10 @@ def test_policy_qa_node():
 
     assert "policy_response" in result
     assert len(result["messages"]) > 0
-    assert "Emirates" in result["messages"][0]["content"] or "cancellation" in result["messages"][0]["content"].lower()
+    assert (
+        "Emirates" in result["messages"][0]["content"]
+        or "cancellation" in result["messages"][0]["content"].lower()
+    )
 
 
 def test_disruption_node_hitl_safeguard():

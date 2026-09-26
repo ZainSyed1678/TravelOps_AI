@@ -62,7 +62,9 @@ async def agent_chat(
                 "I cannot process this instruction as it violates TravelOps AI security policies "
                 f"({inspection.risk_category}). Please phrase your travel request normally."
             ),
-            trace=[f"Security Guardrail: Intercepted prompt injection [{inspection.risk_category}]"],
+            trace=[
+                f"Security Guardrail: Intercepted prompt injection [{inspection.risk_category}]"
+            ],
             requires_human_confirmation=False,
             confirmation_status="NONE",
         )
@@ -106,7 +108,9 @@ async def get_agent_thread_state(thread_id: str) -> dict[str, Any]:
 )
 async def list_pending_hitl_actions(
     thread_id: str | None = Query(None, description="Optional conversational thread filter"),
-    action_type: str | None = Query(None, description="Optional action type filter (e.g. REBOOK_FLIGHT)"),
+    action_type: str | None = Query(
+        None, description="Optional action type filter (e.g. REBOOK_FLIGHT)"
+    ),
 ) -> list[PendingAction]:
     return hitl_manager.list_pending_actions(thread_id=thread_id, action_type=action_type)
 
@@ -146,7 +150,9 @@ async def confirm_hitl_action(
     try:
         from app.observability.metrics import record_hitl_decision
 
-        action_type = res.action_type.value if hasattr(res.action_type, "value") else str(res.action_type)
+        action_type = (
+            res.action_type.value if hasattr(res.action_type, "value") else str(res.action_type)
+        )
         record_hitl_decision(action_type, "APPROVED")
     except Exception:
         pass
@@ -171,7 +177,9 @@ async def reject_hitl_action(
     try:
         from app.observability.metrics import record_hitl_decision
 
-        action_type = res.action_type.value if hasattr(res.action_type, "value") else str(res.action_type)
+        action_type = (
+            res.action_type.value if hasattr(res.action_type, "value") else str(res.action_type)
+        )
         record_hitl_decision(action_type, "REJECTED")
     except Exception:
         pass
@@ -301,5 +309,3 @@ async def clear_session_memory(
         "thread_id": thread_id,
         "deleted": deleted,
     }
-
-

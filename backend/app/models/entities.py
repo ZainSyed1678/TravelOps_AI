@@ -536,9 +536,7 @@ class AgentMessage(Base, TimestampMixin):
     session_id: Mapped[str] = mapped_column(
         String(36), ForeignKey("agent_sessions.id", ondelete="CASCADE"), nullable=False
     )
-    role: Mapped[str] = mapped_column(
-        String(20), nullable=False
-    )  # user, assistant, system, tool
+    role: Mapped[str] = mapped_column(String(20), nullable=False)  # user, assistant, system, tool
     content: Mapped[str] = mapped_column(Text, nullable=False)
     tokens: Mapped[int | None] = mapped_column(Integer, nullable=True)
     metadata_json: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict, nullable=False)
@@ -583,4 +581,3 @@ Index(
     TravelerMemoryProfile.user_id,
     TravelerMemoryProfile.preference_key,
 )
-

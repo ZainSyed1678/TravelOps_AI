@@ -12,9 +12,15 @@ class InjectionInspectionResult(BaseModel):
     """Result of prompt safety and injection inspection."""
 
     is_safe: bool = Field(..., description="Whether prompt is safe for agent processing")
-    risk_score: float = Field(..., ge=0.0, le=1.0, description="Confidence score of injection (0.0=safe, 1.0=critical)")
-    risk_category: str = Field(..., description="Classification category: CLEAN, JAILBREAK_ATTEMPT, SYSTEM_OVERRIDE, etc.")
-    matched_patterns: list[str] = Field(default_factory=list, description="List of matched adversarial heuristic triggers")
+    risk_score: float = Field(
+        ..., ge=0.0, le=1.0, description="Confidence score of injection (0.0=safe, 1.0=critical)"
+    )
+    risk_category: str = Field(
+        ..., description="Classification category: CLEAN, JAILBREAK_ATTEMPT, SYSTEM_OVERRIDE, etc."
+    )
+    matched_patterns: list[str] = Field(
+        default_factory=list, description="List of matched adversarial heuristic triggers"
+    )
     cleaned_text: str = Field(..., description="Sanitized text with harmful delimiters neutralized")
 
 

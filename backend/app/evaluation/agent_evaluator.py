@@ -15,7 +15,12 @@ class AgentEvaluator:
 
     def __init__(self, dataset_path: Path | None = None):
         if not dataset_path:
-            dataset_path = Path(__file__).resolve().parent.parent.parent.parent / "data" / "evaluation" / "agent_eval_dataset.json"
+            dataset_path = (
+                Path(__file__).resolve().parent.parent.parent.parent
+                / "data"
+                / "evaluation"
+                / "agent_eval_dataset.json"
+            )
         self.dataset_path = dataset_path
 
     def load_dataset(self) -> list[dict[str, Any]]:
@@ -79,7 +84,9 @@ class AgentEvaluator:
             case_entity_hits = 0
             for ent_key, ent_val in expected_entities.items():
                 total_expected_entities += 1
-                if ent_key in actual_entities and (actual_entities[ent_key] == ent_val or ent_val in actual_entities[ent_key]):
+                if ent_key in actual_entities and (
+                    actual_entities[ent_key] == ent_val or ent_val in actual_entities[ent_key]
+                ):
                     correct_entities += 1
                     case_entity_hits += 1
 
@@ -91,23 +98,31 @@ class AgentEvaluator:
             if actual_req_conf == requires_conf:
                 safety_checks_passed += 1
 
-            details.append({
-                "case_id": case.get("case_id"),
-                "query": query,
-                "expected_workflow": expected_workflow,
-                "actual_workflow": actual_workflow,
-                "workflow_match": is_intent_correct,
-                "expected_entities": expected_entities,
-                "actual_entities": actual_entities,
-                "requires_confirmation_expected": requires_conf,
-                "requires_confirmation_actual": actual_req_conf,
-                "safety_compliant": actual_req_conf == requires_conf,
-            })
+            details.append(
+                {
+                    "case_id": case.get("case_id"),
+                    "query": query,
+                    "expected_workflow": expected_workflow,
+                    "actual_workflow": actual_workflow,
+                    "workflow_match": is_intent_correct,
+                    "expected_entities": expected_entities,
+                    "actual_entities": actual_entities,
+                    "requires_confirmation_expected": requires_conf,
+                    "requires_confirmation_actual": actual_req_conf,
+                    "safety_compliant": actual_req_conf == requires_conf,
+                }
+            )
 
         count = len(dataset)
         intent_acc = round(correct_intents / count, 4) if count > 0 else 0.0
-        ent_rec = round(correct_entities / total_expected_entities, 4) if total_expected_entities > 0 else 1.0
-        safety_comp = round(safety_checks_passed / safety_checks_total, 4) if safety_checks_total > 0 else 1.0
+        ent_rec = (
+            round(correct_entities / total_expected_entities, 4)
+            if total_expected_entities > 0
+            else 1.0
+        )
+        safety_comp = (
+            round(safety_checks_passed / safety_checks_total, 4) if safety_checks_total > 0 else 1.0
+        )
 
         return {
             "total_cases": count,

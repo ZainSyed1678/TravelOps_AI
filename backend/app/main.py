@@ -56,6 +56,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     await engine.dispose()
     logger.info("All datastore connections gracefully terminated.")
 
+
 OPENAPI_TAGS = [
     {
         "name": "System & Diagnostics",

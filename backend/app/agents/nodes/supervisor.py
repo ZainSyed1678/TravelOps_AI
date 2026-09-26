@@ -23,7 +23,18 @@ def supervisor_node(state: AgentState) -> dict[str, Any]:
     user_intent = "flight_search"
 
     # Disruption / Rebooking keywords
-    if any(k in q_lower for k in ["rebook", "cancelled", "canceled", "delayed", "missed", "disruption", "reschedule"]):
+    if any(
+        k in q_lower
+        for k in [
+            "rebook",
+            "cancelled",
+            "canceled",
+            "delayed",
+            "missed",
+            "disruption",
+            "reschedule",
+        ]
+    ):
         workflow = "DISRUPTION_REBOOKING"
         user_intent = "disruption_rebooking"
     # Hotel keywords
@@ -31,7 +42,20 @@ def supervisor_node(state: AgentState) -> dict[str, Any]:
         workflow = "HOTEL"
         user_intent = "hotel_search"
     # Policy / Rules keywords
-    elif any(k in q_lower for k in ["policy", "refund", "baggage", "allowance", "fee", "rules", "carriage", "cancel ticket", "cancellation cost"]):
+    elif any(
+        k in q_lower
+        for k in [
+            "policy",
+            "refund",
+            "baggage",
+            "allowance",
+            "fee",
+            "rules",
+            "carriage",
+            "cancel ticket",
+            "cancellation cost",
+        ]
+    ):
         workflow = "POLICY"
         user_intent = "policy_qa"
     # Search keywords

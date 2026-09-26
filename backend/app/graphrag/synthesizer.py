@@ -61,14 +61,24 @@ class GraphRAGSynthesizer:
 
         # 1. Integrate Knowledge Graph Facts
         if fused_context.graph_facts:
-            flight_facts = [f for f in fused_context.graph_facts if f.object_type == "Flight" or f.subject_type == "Flight"]
+            flight_facts = [
+                f
+                for f in fused_context.graph_facts
+                if f.object_type == "Flight" or f.subject_type == "Flight"
+            ]
             fare_facts = [f for f in fused_context.graph_facts if f.predicate == "HAS_FARE"]
-            policy_facts = [f for f in fused_context.graph_facts if "POLICY" in f.predicate or f.object_type == "Policy"]
+            policy_facts = [
+                f
+                for f in fused_context.graph_facts
+                if "POLICY" in f.predicate or f.object_type == "Policy"
+            ]
             booking_facts = [f for f in fused_context.graph_facts if f.subject_type == "Booking"]
 
             if booking_facts:
                 for b in booking_facts:
-                    parts.append(f"According to verified booking records, {b.to_readable_sentence()}")
+                    parts.append(
+                        f"According to verified booking records, {b.to_readable_sentence()}"
+                    )
 
             if flight_facts:
                 route_desc = []

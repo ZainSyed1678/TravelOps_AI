@@ -99,7 +99,14 @@ class GraphRAGRetriever:
         facts: list[GraphFact] = []
         seen_triples = set()
 
-        def add_fact(sub: str, sub_t: str, pred: str, obj: str, obj_t: str, props: dict[str, Any] | None = None):
+        def add_fact(
+            sub: str,
+            sub_t: str,
+            pred: str,
+            obj: str,
+            obj_t: str,
+            props: dict[str, Any] | None = None,
+        ):
             key = (sub, pred, obj)
             if key not in seen_triples and sub and obj:
                 seen_triples.add(key)
@@ -148,7 +155,14 @@ class GraphRAGRetriever:
                     for pol in f_ctx.policies:
                         p_id = pol.get("id", "")
                         p_title = pol.get("title", "")
-                        add_fact(al_name or al_code, "Airline", "HAS_POLICY", p_title or p_id, "Policy", pol)
+                        add_fact(
+                            al_name or al_code,
+                            "Airline",
+                            "HAS_POLICY",
+                            p_title or p_id,
+                            "Policy",
+                            pol,
+                        )
 
             # Airline Subgraph Traversal
             elif ent.entity_type == "AIRLINE":
@@ -168,12 +182,26 @@ class GraphRAGRetriever:
                     f_dict = b_ctx.flight or {}
                     f_num = f_dict.get("flight_number") or ""
                     if f_num:
-                        add_fact(b_ref, "Booking", "FOR_FLIGHT", f_num, "Flight", {"status": b_ctx.status})
+                        add_fact(
+                            b_ref,
+                            "Booking",
+                            "FOR_FLIGHT",
+                            f_num,
+                            "Flight",
+                            {"status": b_ctx.status},
+                        )
                     al = b_ctx.airline or {}
                     if al.get("name"):
                         add_fact(al["name"], "Airline", "CARRIES_BOOKING", b_ref, "Booking")
                     for p in b_ctx.applicable_policies:
-                        add_fact(b_ref, "Booking", "SUBJECT_TO_POLICY", p.get("title") or p.get("id"), "Policy", p)
+                        add_fact(
+                            b_ref,
+                            "Booking",
+                            "SUBJECT_TO_POLICY",
+                            p.get("title") or p.get("id"),
+                            "Policy",
+                            p,
+                        )
 
         return facts
 

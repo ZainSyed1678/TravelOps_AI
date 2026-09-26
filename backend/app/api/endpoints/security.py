@@ -46,7 +46,11 @@ class SecurityStatusData(BaseModel):
 async def inspect_prompt(request: InspectPromptRequest) -> ApiResponse[InjectionInspectionResult]:
     """Inspect and score an input prompt."""
     result = injection_guard.inspect(request.prompt)
-    msg = "Prompt passed security inspection" if result.is_safe else f"Prompt flagged as {result.risk_category}"
+    msg = (
+        "Prompt passed security inspection"
+        if result.is_safe
+        else f"Prompt flagged as {result.risk_category}"
+    )
     return api_success(data=result, message=msg)
 
 
@@ -59,7 +63,11 @@ async def inspect_prompt(request: InspectPromptRequest) -> ApiResponse[Injection
 async def validate_tool(request: ValidateToolRequest) -> ApiResponse[ToolSandboxResult]:
     """Validate tool parameters against sandbox policy."""
     result = tool_sandbox.validate_tool_call(request.tool_name, request.parameters)
-    msg = "Tool invocation permitted by sandbox" if result.is_allowed else f"Tool invocation rejected: {result.reason}"
+    msg = (
+        "Tool invocation permitted by sandbox"
+        if result.is_allowed
+        else f"Tool invocation rejected: {result.reason}"
+    )
     return api_success(data=result, message=msg)
 
 
@@ -72,7 +80,9 @@ async def validate_tool(request: ValidateToolRequest) -> ApiResponse[ToolSandbox
 async def list_audit_logs(
     limit: int = Query(default=50, ge=1, le=200, description="Max events to return"),
     event_type: str | None = Query(default=None, description="Filter by event type"),
-    min_severity: str | None = Query(default=None, description="Filter by minimum severity (LOW, MEDIUM, HIGH, CRITICAL)"),
+    min_severity: str | None = Query(
+        default=None, description="Filter by minimum severity (LOW, MEDIUM, HIGH, CRITICAL)"
+    ),
 ) -> ApiResponse[list[SecurityAuditEvent]]:
     """Retrieve security audit events."""
     events = security_audit_logger.get_events(

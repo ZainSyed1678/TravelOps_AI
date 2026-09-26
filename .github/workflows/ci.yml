@@ -42,12 +42,16 @@ jobs:
         run: ruff format --check .
 
   backend-test:
-    name: Backend Test Suite (Py3.${{ matrix.python-version }})
+    name: Backend Test Suite (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         python-version: ['3.11', '3.12']
+
+    env:
+      PYTHONPATH: backend:.
+      APP_ENV: testing
 
     steps:
       - name: Checkout Repository
@@ -67,7 +71,7 @@ jobs:
       - name: Install Project Dependencies
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          pip install -e ".[dev,ml,rag,agents]"
+          pip install -e ".[dev]"
 
       - name: Execute Full Pytest Suite with Coverage
         run: |
@@ -84,6 +88,10 @@ jobs:
   ai-eval-benchmarks:
     name: AI Quality & Safety Benchmarks (Strict Gate)
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: backend:.
+      APP_ENV: testing
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -99,7 +107,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libpq-dev
           python -m pip install --upgrade pip setuptools wheel
-          pip install -e ".[dev,ml,rag,agents]"
+          pip install -e ".[dev]"
 
       - name: Run Evaluation Benchmarks in Strict Mode
         run: |

@@ -96,8 +96,14 @@ def test_record_telemetry_functions():
     [
         ("/health", "/health"),
         ("/api/v1/agents/state/th_123456789abc", "/api/v1/agents/state/{thread_id}"),
-        ("/api/v1/agents/hitl/actions/act_9876543210ab/confirm", "/api/v1/agents/hitl/actions/{action_id}/confirm"),
-        ("/api/v1/agents/memory/sessions/th_abcdef012345/history", "/api/v1/agents/memory/sessions/{thread_id}/history"),
+        (
+            "/api/v1/agents/hitl/actions/act_9876543210ab/confirm",
+            "/api/v1/agents/hitl/actions/{action_id}/confirm",
+        ),
+        (
+            "/api/v1/agents/memory/sessions/th_abcdef012345/history",
+            "/api/v1/agents/memory/sessions/{thread_id}/history",
+        ),
         ("/api/v1/agents/memory/profile/usr_alice99", "/api/v1/agents/memory/profile/{user_id}"),
         ("/api/v1/graph/flight/EK505", "/api/v1/graph/flight/{flight_number}"),
         ("/api/v1/graph/airline/AI/policies", "/api/v1/graph/airline/{airline_code}/policies"),

@@ -23,7 +23,9 @@ class TravelAgentOrchestrator:
     def chat(self, request: AgentChatRequest) -> AgentChatResponse:
         """Process incoming user prompt through the LangGraph state machine."""
         thread_id = request.thread_id or f"th_{uuid.uuid4().hex[:12]}"
-        existing_state = self._threads.get(thread_id) or memory_service.cache.get_session(thread_id) or {}
+        existing_state = (
+            self._threads.get(thread_id) or memory_service.cache.get_session(thread_id) or {}
+        )
 
         # Prepare user message
         user_msg = {"role": "user", "content": request.query}
@@ -51,7 +53,9 @@ class TravelAgentOrchestrator:
             initial_state["messages"] = existing_state["messages"] + [user_msg]
 
         start_time = time.perf_counter()
-        logger.info(f"Invoking TravelOps Agent Graph for thread '{thread_id}' with query: '{request.query}'")
+        logger.info(
+            f"Invoking TravelOps Agent Graph for thread '{thread_id}' with query: '{request.query}'"
+        )
         try:
             final_state = travel_agent_graph.invoke(initial_state)
             duration = time.perf_counter() - start_time
@@ -185,4 +189,3 @@ class TravelAgentOrchestrator:
 
 
 agent_orchestrator = TravelAgentOrchestrator()
-

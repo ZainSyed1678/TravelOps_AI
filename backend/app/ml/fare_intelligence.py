@@ -1,6 +1,5 @@
 """Fare intelligence and anomaly detection engine for airline route pricing."""
 
-
 from app.ml.schemas import FareAnomalyRequest, FareAnomalyResponse
 
 # Historical route pricing baselines (mean, std, median, min, max in INR)

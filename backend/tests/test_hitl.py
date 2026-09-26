@@ -200,9 +200,7 @@ def test_hitl_action_expiration():
 @pytest.mark.asyncio
 async def test_hitl_rest_endpoints():
     """Verify REST API endpoints for listing, viewing, confirming, and rejecting HITL proposals."""
-    async with AsyncClient(
-        transport=ASGITransport(app=app), base_url="http://test"
-    ) as ac:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         # 1. Create action via manager
         action = hitl_manager.create_pending_action(
             action_type=ActionType.REBOOK_FLIGHT.value,

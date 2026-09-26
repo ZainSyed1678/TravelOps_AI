@@ -16,9 +16,15 @@ class FeatureImpact(BaseModel):
 class UserPreferences(BaseModel):
     """Traveler preferences used to calibrate the ranking model."""
 
-    price_sensitivity: float = Field(1.0, ge=0.0, le=2.0, description="Weight multiplier for fare price")
-    duration_sensitivity: float = Field(1.0, ge=0.0, le=2.0, description="Weight multiplier for flight duration")
-    preferred_airline: str | None = Field(None, description="Preferred airline carrier code e.g. EK, AI")
+    price_sensitivity: float = Field(
+        1.0, ge=0.0, le=2.0, description="Weight multiplier for fare price"
+    )
+    duration_sensitivity: float = Field(
+        1.0, ge=0.0, le=2.0, description="Weight multiplier for flight duration"
+    )
+    preferred_airline: str | None = Field(
+        None, description="Preferred airline carrier code e.g. EK, AI"
+    )
     prefer_nonstop: bool = Field(True, description="Strict preference for direct flights")
 
 
@@ -50,7 +56,9 @@ class FareAnomalyRequest(BaseModel):
     """Request payload to assess fare price anomaly for a route."""
 
     origin: str = Field(..., min_length=3, max_length=3, description="Origin airport IATA code")
-    destination: str = Field(..., min_length=3, max_length=3, description="Destination airport IATA code")
+    destination: str = Field(
+        ..., min_length=3, max_length=3, description="Destination airport IATA code"
+    )
     airline: str | None = Field(None, description="Airline carrier code")
     fare_amount: float = Field(..., gt=0, description="Current quoted fare price")
     currency: str = Field("INR", description="Currency code")
@@ -67,6 +75,8 @@ class FareAnomalyResponse(BaseModel):
     historical_median: float
     historical_min: float
     historical_max: float
-    percentage_difference: float = Field(..., description="Percentage above (+) or below (-) median")
+    percentage_difference: float = Field(
+        ..., description="Percentage above (+) or below (-) median"
+    )
     recommendation: str
     confidence: float = 1.0

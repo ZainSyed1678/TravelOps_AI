@@ -6,8 +6,12 @@ from typing import Any
 from pydantic import BaseModel, Field
 
 # Disallowed shell command and path traversal patterns
-PATH_TRAVERSAL_PATTERN = re.compile(r"(\.\.[/\\]|[/\\]etc[/\\]|[/\\]sys[/\\]|[A-Za-z]:[/\\]Windows)", re.IGNORECASE)
-SHELL_METACHOICE_PATTERN = re.compile(r"([;&|`]|^\s*exec\b|^\s*bash\b|^\s*powershell\b|\$\(.*\))", re.IGNORECASE)
+PATH_TRAVERSAL_PATTERN = re.compile(
+    r"(\.\.[/\\]|[/\\]etc[/\\]|[/\\]sys[/\\]|[A-Za-z]:[/\\]Windows)", re.IGNORECASE
+)
+SHELL_METACHOICE_PATTERN = re.compile(
+    r"([;&|`]|^\s*exec\b|^\s*bash\b|^\s*powershell\b|\$\(.*\))", re.IGNORECASE
+)
 
 
 class ToolSandboxResult(BaseModel):
@@ -15,24 +19,28 @@ class ToolSandboxResult(BaseModel):
 
     is_allowed: bool = Field(..., description="Whether tool execution is permitted")
     reason: str | None = Field(None, description="Explanation if rejected")
-    sanitized_parameters: dict[str, Any] = Field(default_factory=dict, description="Sanitized parameters")
+    sanitized_parameters: dict[str, Any] = Field(
+        default_factory=dict, description="Sanitized parameters"
+    )
 
 
 class ToolSandbox:
     """Sandbox environment isolating and restricting tool execution."""
 
-    ALLOWED_TOOLS: frozenset[str] = frozenset({
-        "search_flights",
-        "price_flight",
-        "get_flight_status",
-        "search_hotels",
-        "get_hotel_details",
-        "query_rag_policy",
-        "query_knowledge_graph",
-        "request_booking_confirmation",
-        "execute_rebooking",
-        "cancel_booking",
-    })
+    ALLOWED_TOOLS: frozenset[str] = frozenset(
+        {
+            "search_flights",
+            "price_flight",
+            "get_flight_status",
+            "search_hotels",
+            "get_hotel_details",
+            "query_rag_policy",
+            "query_knowledge_graph",
+            "request_booking_confirmation",
+            "execute_rebooking",
+            "cancel_booking",
+        }
+    )
 
     def validate_tool_call(self, tool_name: str, parameters: dict[str, Any]) -> ToolSandboxResult:
         """Validate that the tool is registered and all parameters comply with sandbox boundaries."""

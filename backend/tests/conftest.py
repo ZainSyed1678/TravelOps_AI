@@ -14,10 +14,12 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.pool import StaticPool
 
-# Add backend directory to sys.path so 'app' can be imported seamlessly
+# Add backend and project root directories to sys.path so 'app' and 'ingestion' can be imported seamlessly
 backend_dir = Path(__file__).resolve().parent.parent
-if str(backend_dir) not in sys.path:
-    sys.path.insert(0, str(backend_dir))
+root_dir = backend_dir.parent
+for p in [str(backend_dir), str(root_dir)]:
+    if p not in sys.path:
+        sys.path.insert(0, p)
 
 # Force testing environment
 os.environ["APP_ENV"] = "testing"

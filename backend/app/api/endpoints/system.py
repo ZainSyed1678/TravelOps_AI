@@ -22,7 +22,9 @@ class SystemInfoData(BaseModel):
     environment: str = Field(..., description="Deployment environment")
     uptime_seconds: float = Field(..., description="System uptime in seconds")
     python_version: str = Field(..., description="Python runtime version")
-    rate_limiting_enabled: bool = Field(..., description="Whether rate limiting middleware is active")
+    rate_limiting_enabled: bool = Field(
+        ..., description="Whether rate limiting middleware is active"
+    )
     caching_enabled: bool = Field(..., description="Whether distributed caching layer is active")
     enabled_modules: list[str] = Field(..., description="List of enabled operational modules")
     datastores: dict[str, str] = Field(..., description="Configured datastore connections")

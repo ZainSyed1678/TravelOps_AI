@@ -90,7 +90,9 @@ class HITLConfirmationRequest(BaseModel):
 
     operator_id: str = Field(..., description="ID or role of operator/user confirming the action")
     notes: str | None = Field(None, description="Optional operator notes or justification")
-    waiver_override: bool = Field(False, description="Override fee or policy restrictions if applicable")
+    waiver_override: bool = Field(
+        False, description="Override fee or policy restrictions if applicable"
+    )
 
 
 class HITLRejectionRequest(BaseModel):
@@ -280,7 +282,9 @@ class HITLManager:
                 detail=f"Action '{action_id}' is already in status '{action.status}' and cannot be confirmed.",
             )
 
-        logger.info(f"[HITL] Operator '{operator_id}' confirmed action '{action_id}' ({action.action_type})")
+        logger.info(
+            f"[HITL] Operator '{operator_id}' confirmed action '{action_id}' ({action.action_type})"
+        )
 
         # Execute verified supplier operation
         execution_result = self._execute_action(action, operator_id, waiver_override)
@@ -499,7 +503,9 @@ class HITLManager:
         thread_state["pending_action"] = None
 
         new_pnr = exec_res.get("new_pnr", "CONFIRMED")
-        b_ref = exec_res.get("original_booking_reference", action.details.get("booking_reference", ""))
+        b_ref = exec_res.get(
+            "original_booking_reference", action.details.get("booking_reference", "")
+        )
         amount = exec_res.get("total_amount_due", 0.0)
         curr = exec_res.get("currency", "INR")
 

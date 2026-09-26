@@ -56,7 +56,9 @@ class PreferenceExtractor:
                 extracted.append({"key": key, "value": value, "confidence": 0.85})
 
         # 4. Home / departure base airport
-        home_match = re.search(r"\b(based in|live in|home airport is|flying out of)\s+([A-Za-z\s]+)", text_lower)
+        home_match = re.search(
+            r"\b(based in|live in|home airport is|flying out of)\s+([A-Za-z\s]+)", text_lower
+        )
         if home_match:
             city = home_match.group(2).strip().title()
             city_airport_map = {
@@ -71,7 +73,11 @@ class PreferenceExtractor:
             extracted.append({"key": "home_airport", "value": airport, "confidence": 0.90})
 
         # 5. Non-stop flight preference
-        if "non-stop" in text_lower or "non stop" in text_lower or "direct flights only" in text_lower:
+        if (
+            "non-stop" in text_lower
+            or "non stop" in text_lower
+            or "direct flights only" in text_lower
+        ):
             extracted.append({"key": "prefer_nonstop", "value": "true", "confidence": 0.90})
 
         # 6. Refundability preference

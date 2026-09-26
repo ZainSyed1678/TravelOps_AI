@@ -51,6 +51,7 @@ def flight_search_node(state: AgentState) -> dict[str, Any]:
         loop = asyncio.get_event_loop()
         if loop.is_running():
             import concurrent.futures
+
             with concurrent.futures.ThreadPoolExecutor() as pool:
                 search_res = pool.submit(asyncio.run, provider.search_flights(params)).result()
         else:
@@ -58,6 +59,7 @@ def flight_search_node(state: AgentState) -> dict[str, Any]:
     except Exception:
         # Fallback direct call if already running loop in thread
         import nest_asyncio
+
         nest_asyncio.apply()
         search_res = asyncio.get_event_loop().run_until_complete(provider.search_flights(params))
 
@@ -73,7 +75,11 @@ def flight_search_node(state: AgentState) -> dict[str, Any]:
 
     for item in ranked_offers[:3]:
         off = item.offer
-        top_reason = item.score_breakdown[0].explanation if item.score_breakdown else "Balanced price and schedule."
+        top_reason = (
+            item.score_breakdown[0].explanation
+            if item.score_breakdown
+            else "Balanced price and schedule."
+        )
         lines.append(
             f"**#{item.rank} {off.airline_name} ({off.flight_number})** — Score: `{item.score}/100`"
         )

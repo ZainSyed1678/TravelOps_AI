@@ -17,7 +17,12 @@ class RankingEvaluator:
 
     def __init__(self, dataset_path: Path | None = None):
         if not dataset_path:
-            dataset_path = Path(__file__).resolve().parent.parent.parent.parent / "data" / "evaluation" / "ranking_eval_dataset.json"
+            dataset_path = (
+                Path(__file__).resolve().parent.parent.parent.parent
+                / "data"
+                / "evaluation"
+                / "ranking_eval_dataset.json"
+            )
         self.dataset_path = dataset_path
 
     def load_dataset(self) -> list[dict[str, Any]]:
@@ -95,13 +100,15 @@ class RankingEvaluator:
                         if rel_a > rel_b:
                             pairwise_correct += 1
 
-            details.append({
-                "scenario_id": scen.get("scenario_id"),
-                "name": scen.get("name"),
-                "ranked_ids": ranked_ids,
-                "ndcg_at_3": n3,
-                "ndcg_at_5": n5,
-            })
+            details.append(
+                {
+                    "scenario_id": scen.get("scenario_id"),
+                    "name": scen.get("name"),
+                    "ranked_ids": ranked_ids,
+                    "ndcg_at_3": n3,
+                    "ndcg_at_5": n5,
+                }
+            )
 
         count = len(dataset)
         pairwise_acc = round(pairwise_correct / total_pairs, 4) if total_pairs > 0 else 1.0

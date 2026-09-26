@@ -94,7 +94,9 @@ class RAGEvaluator:
                     1 for t in retrieved_texts[:3] if any(k in t.lower() for k in keywords)
                 )
                 if keyword_hits > 0:
-                    p1 = max(1.0 if any(k in retrieved_texts[0].lower() for k in keywords) else 0.0, p1)
+                    p1 = max(
+                        1.0 if any(k in retrieved_texts[0].lower() for k in keywords) else 0.0, p1
+                    )
                     p3 = max(keyword_hits / 3.0, p3)
                     r3 = max(min(1.0, keyword_hits / 2.0), r3)
                     mrr = max(1.0, mrr)
@@ -108,15 +110,17 @@ class RAGEvaluator:
             mrr_scores.append(mrr)
             faithfulness_scores.append(faith)
 
-            details.append({
-                "query_id": item.get("query_id"),
-                "query": query,
-                "precision_at_1": round(p1, 3),
-                "precision_at_3": round(p3, 3),
-                "recall_at_3": round(r3, 3),
-                "mrr": round(mrr, 3),
-                "faithfulness": round(faith, 3),
-            })
+            details.append(
+                {
+                    "query_id": item.get("query_id"),
+                    "query": query,
+                    "precision_at_1": round(p1, 3),
+                    "precision_at_3": round(p3, 3),
+                    "recall_at_3": round(r3, 3),
+                    "mrr": round(mrr, 3),
+                    "faithfulness": round(faith, 3),
+                }
+            )
 
         count = len(dataset)
         return {

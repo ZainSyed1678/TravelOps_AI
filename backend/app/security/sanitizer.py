@@ -11,7 +11,10 @@ DATA_URI_PATTERN = re.compile(r"data:\s*text/html", re.IGNORECASE)
 
 # SQL injection probe patterns
 SQL_INJECTION_PATTERNS = [
-    re.compile(r"(\b(UNION(\s+ALL)?|SELECT|INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|EXEC)\b.*\b(FROM|INTO|TABLE|DATABASE)\b)", re.IGNORECASE),
+    re.compile(
+        r"(\b(UNION(\s+ALL)?|SELECT|INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|EXEC)\b.*\b(FROM|INTO|TABLE|DATABASE)\b)",
+        re.IGNORECASE,
+    ),
     re.compile(r"(\bOR\b|\bAND\b)\s+['\"]?\d+['\"]?\s*=\s*['\"]?\d+", re.IGNORECASE),
     re.compile(r"(--|#|/\*|\*/|;)\s*$", re.MULTILINE),
 ]
@@ -21,7 +24,9 @@ def normalize_unicode(text: str) -> str:
     """Normalize Unicode characters using NFKC and strip non-printable characters."""
     normalized = unicodedata.normalize("NFKC", text)
     # Strip non-printable / control characters (except newline, tab, carriage return)
-    cleaned = "".join(ch for ch in normalized if unicodedata.category(ch)[0] != "C" or ch in ("\n", "\r", "\t"))
+    cleaned = "".join(
+        ch for ch in normalized if unicodedata.category(ch)[0] != "C" or ch in ("\n", "\r", "\t")
+    )
     return cleaned
 
 

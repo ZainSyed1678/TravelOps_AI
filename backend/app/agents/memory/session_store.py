@@ -59,7 +59,9 @@ class RedisSessionCache:
             return _REDIS_CLIENT
         except Exception:
             _REDIS_AVAILABLE = False
-            logger.info("Redis daemon not reachable; initializing in-memory session cache fallback.")
+            logger.info(
+                "Redis daemon not reachable; initializing in-memory session cache fallback."
+            )
             return None
 
     def get_session(self, thread_id: str) -> dict[str, Any] | None:

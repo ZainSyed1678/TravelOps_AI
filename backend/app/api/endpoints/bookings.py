@@ -24,13 +24,17 @@ router = APIRouter()
 )
 async def list_bookings(
     user_id: str | None = Query(default=None, description="Filter by user ID"),
-    booking_status: str | None = Query(default=None, alias="status", description="Filter by status (e.g. CONFIRMED, PENDING)"),
+    booking_status: str | None = Query(
+        default=None, alias="status", description="Filter by status (e.g. CONFIRMED, PENDING)"
+    ),
     page: int = Query(default=1, ge=1, description="Page number"),
     page_size: int = Query(default=20, ge=1, le=100, description="Page size"),
     session: AsyncSession = Depends(get_db_session),
 ) -> ApiResponse[list[BookingRead]]:
     """List bookings with pagination and filters."""
-    query = select(Booking).options(selectinload(Booking.passengers), selectinload(Booking.payments))
+    query = select(Booking).options(
+        selectinload(Booking.passengers), selectinload(Booking.payments)
+    )
     count_query = select(func.count(Booking.id))
 
     if user_id:

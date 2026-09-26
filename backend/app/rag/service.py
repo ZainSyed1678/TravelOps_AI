@@ -68,7 +68,9 @@ class RAGService:
         try:
             from app.caching import cache_manager
 
-            cache_key = f"rag_query:{request.query.lower().strip()}:{request.airline}:{request.policy_type}"
+            cache_key = (
+                f"rag_query:{request.query.lower().strip()}:{request.airline}:{request.policy_type}"
+            )
             cached_res = cache_manager.get(cache_key, namespace="travelops:rag")
             if cached_res is not None:
                 return RAGQueryResponse(**cached_res)

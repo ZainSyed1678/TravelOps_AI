@@ -31,11 +31,11 @@ class Colors:
 
 def run_stage(name: str, cmd: list[str], cwd: Path | None = None) -> tuple[bool, float, str]:
     """Execute a single CI pipeline stage."""
-    print(f"\n{Colors.CYAN}{'='*70}{Colors.END}")
+    print(f"\n{Colors.CYAN}{'=' * 70}{Colors.END}")
     print(f"{Colors.BOLD}Stage: {name}{Colors.END}")
     print(f"Command: {' '.join(cmd)}")
     print(f"Directory: {cwd or ROOT_DIR}")
-    print(f"{Colors.CYAN}{'-'*70}{Colors.END}")
+    print(f"{Colors.CYAN}{'-' * 70}{Colors.END}")
 
     start = time.time()
     try:
@@ -60,7 +60,11 @@ def run_stage(name: str, cmd: list[str], cwd: Path | None = None) -> tuple[bool,
             for line in res.stderr.strip().splitlines()[-10:]:
                 print(f"  {line}")
 
-        status_text = f"{Colors.GREEN}[PASSED]{Colors.END}" if success else f"{Colors.RED}[FAILED]{Colors.END}"
+        status_text = (
+            f"{Colors.GREEN}[PASSED]{Colors.END}"
+            if success
+            else f"{Colors.RED}[FAILED]{Colors.END}"
+        )
         print(f"Result: {status_text} ({duration:.2f}s)")
         return success, duration, "" if success else (res.stderr or res.stdout)
 
@@ -71,7 +75,9 @@ def run_stage(name: str, cmd: list[str], cwd: Path | None = None) -> tuple[bool,
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="TravelOps AI Local CI Pipeline Verification Runner")
+    parser = argparse.ArgumentParser(
+        description="TravelOps AI Local CI Pipeline Verification Runner"
+    )
     parser.add_argument("--skip-eval", action="store_true", help="Skip AI evaluation benchmarks")
     parser.add_argument("--skip-frontend", action="store_true", help="Skip frontend build step")
     args = parser.parse_args()
@@ -91,18 +97,22 @@ def main() -> int:
     ]
 
     if not args.skip_eval:
-        stages.append((
-            "AI/ML Quality Benchmarks",
-            [sys.executable, "scripts/run_evaluations.py", "--strict"],
-            ROOT_DIR,
-        ))
+        stages.append(
+            (
+                "AI/ML Quality Benchmarks",
+                [sys.executable, "scripts/run_evaluations.py", "--strict"],
+                ROOT_DIR,
+            )
+        )
 
     if not args.skip_frontend and FRONTEND_DIR.exists():
-        stages.append((
-            "Frontend Typecheck & Build",
-            ["npm", "run", "build"],
-            FRONTEND_DIR,
-        ))
+        stages.append(
+            (
+                "Frontend Typecheck & Build",
+                ["npm", "run", "build"],
+                FRONTEND_DIR,
+            )
+        )
 
     results = []
     overall_success = True
@@ -126,11 +136,17 @@ def main() -> int:
     print("-" * 70)
 
     for name, success, dur, _ in results:
-        status_col = f"{Colors.GREEN}PASS{Colors.END}" if success else f"{Colors.RED}FAIL{Colors.END}"
+        status_col = (
+            f"{Colors.GREEN}PASS{Colors.END}" if success else f"{Colors.RED}FAIL{Colors.END}"
+        )
         print(f"{name:<35} | {status_col:<19} | {dur:.2f}s")
 
     print("-" * 70)
-    overall_str = f"{Colors.GREEN}ALL STAGES PASSED{Colors.END}" if overall_success else f"{Colors.RED}PIPELINE FAILED{Colors.END}"
+    overall_str = (
+        f"{Colors.GREEN}ALL STAGES PASSED{Colors.END}"
+        if overall_success
+        else f"{Colors.RED}PIPELINE FAILED{Colors.END}"
+    )
     print(f"Overall Result: {overall_str} (Total: {total_duration:.2f}s)\n")
 
     return 0 if overall_success else 1

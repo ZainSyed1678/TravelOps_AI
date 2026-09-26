@@ -118,7 +118,9 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         rate_limit_enabled = getattr(settings, "RATE_LIMIT_ENABLED", True)
         path = request.url.path
 
-        if not rate_limit_enabled or any(path.startswith(prefix) for prefix in self.EXCLUDED_PREFIXES):
+        if not rate_limit_enabled or any(
+            path.startswith(prefix) for prefix in self.EXCLUDED_PREFIXES
+        ):
             return await call_next(request)
 
         client_id = self._get_client_identity(request)

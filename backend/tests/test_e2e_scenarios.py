@@ -219,7 +219,10 @@ def test_journey_grounded_policy_qa():
     assert body["policy_response"] is not None
     assert "answer" in body["policy_response"]
     assert len(body["policy_response"]["answer"]) > 10
-    assert "Emirates" in body["response_message"] or len(body["policy_response"].get("citations", [])) >= 0
+    assert (
+        "Emirates" in body["response_message"]
+        or len(body["policy_response"].get("citations", [])) >= 0
+    )
 
 
 # ---------------------------------------------------------------------------

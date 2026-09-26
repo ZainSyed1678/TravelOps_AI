@@ -34,7 +34,9 @@ class GraphService:
 
     _neo4j_reachable: bool | None = None
 
-    def __init__(self, uri: str | None = None, user: str | None = None, password: str | None = None):
+    def __init__(
+        self, uri: str | None = None, user: str | None = None, password: str | None = None
+    ):
         self.uri = uri or settings.NEO4J_URI
         self.user = user or settings.NEO4J_USER
         self.password = password or settings.NEO4J_PASSWORD
@@ -56,7 +58,9 @@ class GraphService:
         try:
             from neo4j import GraphDatabase
 
-            driver = GraphDatabase.driver(self.uri, auth=(self.user, self.password), connection_timeout=1.0)
+            driver = GraphDatabase.driver(
+                self.uri, auth=(self.user, self.password), connection_timeout=1.0
+            )
             driver.verify_connectivity()
             self._driver = driver
             GraphService._neo4j_reachable = True
@@ -67,7 +71,9 @@ class GraphService:
             self._driver = None
             self._use_in_memory = True
 
-    def execute_cypher(self, query: str, parameters: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+    def execute_cypher(
+        self, query: str, parameters: dict[str, Any] | None = None
+    ) -> list[dict[str, Any]]:
         """Execute Cypher query against Neo4j or return empty if in fallback mode."""
         if self._driver is not None:
             try:
@@ -167,17 +173,33 @@ class GraphService:
         if self._driver:
             self.execute_cypher(
                 MERGE_AIRLINE,
-                {"id": id, "name": name, "country": country, "alliance": alliance, "logo_url": logo_url},
+                {
+                    "id": id,
+                    "name": name,
+                    "country": country,
+                    "alliance": alliance,
+                    "logo_url": logo_url,
+                },
             )
 
     def upsert_route(self, origin: str, destination: str, distance_km: float = 0.0) -> None:
         """Upsert Route entity between two airports."""
         route_id = f"{origin}-{destination}"
-        self._mem_graph.add_node(route_id, label="Route", id=route_id, origin=origin, destination=destination)
+        self._mem_graph.add_node(
+            route_id, label="Route", id=route_id, origin=origin, destination=destination
+        )
         self._mem_graph.add_edge(route_id, origin, rel="FROM_AIRPORT")
         self._mem_graph.add_edge(route_id, destination, rel="TO_AIRPORT")
         if self._driver:
-            self.execute_cypher(MERGE_ROUTE, {"id": route_id, "origin": origin, "destination": destination, "distance_km": distance_km})
+            self.execute_cypher(
+                MERGE_ROUTE,
+                {
+                    "id": route_id,
+                    "origin": origin,
+                    "destination": destination,
+                    "distance_km": distance_km,
+                },
+            )
 
     def upsert_flight(
         self,
@@ -228,7 +250,9 @@ class GraphService:
                 },
             )
 
-    def upsert_hotel(self, id: str, name: str, city_name: str, address: str, star_rating: float) -> None:
+    def upsert_hotel(
+        self, id: str, name: str, city_name: str, address: str, star_rating: float
+    ) -> None:
         """Upsert Hotel entity and LOCATED_IN City relationship."""
         self._mem_graph.add_node(
             id,
@@ -240,19 +264,35 @@ class GraphService:
         )
         self._mem_graph.add_edge(id, city_name, rel="LOCATED_IN")
         if self._driver:
-            self.execute_cypher(MERGE_HOTEL, {"id": id, "name": name, "city_name": city_name, "address": address, "star_rating": star_rating})
+            self.execute_cypher(
+                MERGE_HOTEL,
+                {
+                    "id": id,
+                    "name": name,
+                    "city_name": city_name,
+                    "address": address,
+                    "star_rating": star_rating,
+                },
+            )
 
     def upsert_supplier(self, code: str, name: str, supplier_type: str) -> None:
         """Upsert Supplier entity."""
-        self._mem_graph.add_node(code, label="Supplier", code=code, name=name, supplier_type=supplier_type)
+        self._mem_graph.add_node(
+            code, label="Supplier", code=code, name=name, supplier_type=supplier_type
+        )
         if self._driver:
-            self.execute_cypher(MERGE_SUPPLIER, {"code": code, "name": name, "supplier_type": supplier_type})
+            self.execute_cypher(
+                MERGE_SUPPLIER, {"code": code, "name": name, "supplier_type": supplier_type}
+            )
 
     def link_supplier_flight(self, supplier_code: str, flight_number: str) -> None:
         """Link Supplier to Flight via PROVIDES relationship."""
         self._mem_graph.add_edge(supplier_code, flight_number, rel="PROVIDES")
         if self._driver:
-            self.execute_cypher(MERGE_SUPPLIER_FLIGHT, {"supplier_code": supplier_code, "flight_number": flight_number})
+            self.execute_cypher(
+                MERGE_SUPPLIER_FLIGHT,
+                {"supplier_code": supplier_code, "flight_number": flight_number},
+            )
 
     def upsert_policy(
         self,
@@ -475,7 +515,9 @@ class GraphService:
             documents=documents,
         )
 
-    def get_airline_policies(self, airline_code: str, policy_type: str | None = None) -> list[dict[str, Any]]:
+    def get_airline_policies(
+        self, airline_code: str, policy_type: str | None = None
+    ) -> list[dict[str, Any]]:
         """Retrieve policies and associated documents for an airline."""
         if self._driver is not None:
             records = self.execute_cypher(GET_AIRLINE_POLICIES, {"airline_code": airline_code})
@@ -497,7 +539,8 @@ class GraphService:
                         docs = [
                             self._mem_graph.nodes[pred]
                             for pred in self._mem_graph.predecessors(neighbor)
-                            if self._mem_graph.get_edge_data(pred, neighbor).get("rel") == "DESCRIBES"
+                            if self._mem_graph.get_edge_data(pred, neighbor).get("rel")
+                            == "DESCRIBES"
                         ]
                         results.append({"policy": dict(p_data), "documents": docs})
         return results
@@ -552,7 +595,9 @@ class GraphService:
     def get_destination_hotels(self, airport_code: str, limit: int = 10) -> list[dict[str, Any]]:
         """Find hotels situated in the destination city of an airport."""
         if self._driver is not None:
-            records = self.execute_cypher(GET_DESTINATION_HOTELS, {"airport_code": airport_code, "limit": limit})
+            records = self.execute_cypher(
+                GET_DESTINATION_HOTELS, {"airport_code": airport_code, "limit": limit}
+            )
             return [r.get("h", {}) for r in records]
 
         # In-memory

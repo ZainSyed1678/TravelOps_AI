@@ -88,7 +88,9 @@ class TravelEntityExtractor:
 
         # 1. Explicit hints take highest precedence
         if flight_hint:
-            add_entity("FLIGHT", flight_hint.strip().upper(), flight_hint.strip().upper().replace(" ", ""))
+            add_entity(
+                "FLIGHT", flight_hint.strip().upper(), flight_hint.strip().upper().replace(" ", "")
+            )
         if airline_hint:
             norm_al = KNOWN_AIRLINES.get(airline_hint.lower().strip(), airline_hint.strip().upper())
             add_entity("AIRLINE", airline_hint.strip(), norm_al)
@@ -120,7 +122,9 @@ class TravelEntityExtractor:
         # 4. Extract Airlines by Name or standalone IATA code (only if not explicitly provided)
         q_lower = query.lower()
         if not airline_hint:
-            for phrase, code in sorted(KNOWN_AIRLINES.items(), key=lambda x: len(x[0]), reverse=True):
+            for phrase, code in sorted(
+                KNOWN_AIRLINES.items(), key=lambda x: len(x[0]), reverse=True
+            ):
                 pattern = rf"\b{re.escape(phrase)}\b"
                 if re.search(pattern, q_lower):
                     add_entity("AIRLINE", phrase, code, 0.85)
@@ -133,7 +137,9 @@ class TravelEntityExtractor:
 
         # 6. Extract Policy Types (only if not explicitly provided)
         if not policy_hint:
-            for kw, p_type in sorted(POLICY_KEYWORDS.items(), key=lambda x: len(x[0]), reverse=True):
+            for kw, p_type in sorted(
+                POLICY_KEYWORDS.items(), key=lambda x: len(x[0]), reverse=True
+            ):
                 pattern = rf"\b{re.escape(kw)}\b"
                 if re.search(pattern, q_lower):
                     add_entity("POLICY_TYPE", kw, p_type, 0.8)

@@ -30,7 +30,9 @@ class GraphRAGContextFusion:
         if extracted_entities:
             lines.append("### Recognized Travel Entities:")
             for ent in extracted_entities:
-                lines.append(f"- {ent.entity_type}: {ent.value} (ID: {ent.normalized_id or ent.value})")
+                lines.append(
+                    f"- {ent.entity_type}: {ent.value} (ID: {ent.normalized_id or ent.value})"
+                )
             lines.append("")
 
         # Section B: Structured Knowledge Graph Facts

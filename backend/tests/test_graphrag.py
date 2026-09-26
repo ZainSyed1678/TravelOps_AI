@@ -68,7 +68,9 @@ def test_graphrag_retriever_subgraph_extraction():
     entities = [
         ExtractedEntity(entity_type="FLIGHT", value="EK505", normalized_id="EK505"),
         ExtractedEntity(entity_type="AIRLINE", value="EK", normalized_id="EK"),
-        ExtractedEntity(entity_type="POLICY_TYPE", value="cancellation", normalized_id="CANCELLATION"),
+        ExtractedEntity(
+            entity_type="POLICY_TYPE", value="cancellation", normalized_id="CANCELLATION"
+        ),
     ]
 
     graph_facts, chunks, filters = retriever.retrieve(

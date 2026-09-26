@@ -44,10 +44,12 @@ def disruption_node(state: AgentState) -> dict[str, Any]:
     provider = get_flight_provider()
     try:
         import concurrent.futures
+
         with concurrent.futures.ThreadPoolExecutor() as pool:
             search_res = pool.submit(asyncio.run, provider.search_flights(params)).result()
     except Exception:
         import nest_asyncio
+
         nest_asyncio.apply()
         search_res = asyncio.get_event_loop().run_until_complete(provider.search_flights(params))
 
@@ -74,8 +76,12 @@ def disruption_node(state: AgentState) -> dict[str, Any]:
         "proposed_flight": {
             "flight_number": proposed_flight_num,
             "airline": proposed_carrier,
-            "departure_time": best_alt.departure_time.isoformat() if best_alt else "2026-10-16T04:30:00",
-            "arrival_time": best_alt.arrival_time.isoformat() if best_alt else "2026-10-16T07:00:00",
+            "departure_time": best_alt.departure_time.isoformat()
+            if best_alt
+            else "2026-10-16T04:30:00",
+            "arrival_time": best_alt.arrival_time.isoformat()
+            if best_alt
+            else "2026-10-16T07:00:00",
             "additional_fee": 0.0,
         },
     }

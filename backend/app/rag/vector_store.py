@@ -45,7 +45,9 @@ class QdrantVectorStore:
             except Exception:
                 QdrantVectorStore._qdrant_reachable = False
                 if QdrantVectorStore._shared_in_memory_client is None:
-                    logger.info("Initializing in-memory Qdrant instance for hermetic local execution.")
+                    logger.info(
+                        "Initializing in-memory Qdrant instance for hermetic local execution."
+                    )
                     QdrantVectorStore._shared_in_memory_client = QdrantClient(":memory:")
                 self.client = QdrantVectorStore._shared_in_memory_client
 

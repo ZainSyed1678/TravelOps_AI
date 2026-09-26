@@ -49,6 +49,7 @@ def hotel_search_node(state: AgentState) -> dict[str, Any]:
     provider = get_hotel_provider()
     try:
         import concurrent.futures
+
         with concurrent.futures.ThreadPoolExecutor() as pool:
             provider_res = pool.submit(asyncio.run, provider.search_hotels(params)).result()
         hotel_offers = provider_res.offers
@@ -68,7 +69,9 @@ def hotel_search_node(state: AgentState) -> dict[str, Any]:
             stars = int(h.star_rating) if h.star_rating else 4
             lines.append(f"**#{idx} {h.name}** ({'★' * stars})")
             lines.append(f"- Location: {h.address}")
-            lines.append(f"- Rate: **₹{h.total_price:,.0f}** total (₹{h.price_per_night:,.0f}/night)")
+            lines.append(
+                f"- Rate: **₹{h.total_price:,.0f}** total (₹{h.price_per_night:,.0f}/night)"
+            )
             lines.append("")
             results_data.append(h.model_dump(mode="json"))
     elif kg_hotels:
@@ -82,7 +85,9 @@ def hotel_search_node(state: AgentState) -> dict[str, Any]:
         lines.append("No hotels currently found matching your destination criteria.")
 
     assistant_msg = "\n".join(lines).strip()
-    trace_entry = f"hotel_search: found {len(results_data)} hotel options for destination {dest_airport}."
+    trace_entry = (
+        f"hotel_search: found {len(results_data)} hotel options for destination {dest_airport}."
+    )
 
     return {
         "hotel_results": results_data,

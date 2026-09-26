@@ -43,7 +43,9 @@ def main() -> int:
     print("=" * 70)
     print(f"Run ID:        {report.run_id}")
     print(f"Timestamp:     {report.timestamp.isoformat()}")
-    print(f"Overall Status: [{'PASS' if report.overall_status == 'PASSED' else 'FAIL'}] {report.overall_status}")
+    print(
+        f"Overall Status: [{'PASS' if report.overall_status == 'PASSED' else 'FAIL'}] {report.overall_status}"
+    )
     print("-" * 70)
     print(f"{'METRIC NAME':<28} | {'TARGET':<8} | {'ACTUAL':<8} | {'STATUS'}")
     print("-" * 70)

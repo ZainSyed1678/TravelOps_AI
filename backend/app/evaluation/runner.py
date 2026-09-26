@@ -50,13 +50,19 @@ class EvaluationRunner:
 
     def __init__(self, report_path: Path | None = None):
         if not report_path:
-            report_path = Path(__file__).resolve().parent.parent.parent.parent / "data" / "evaluation" / "eval_report.json"
+            report_path = (
+                Path(__file__).resolve().parent.parent.parent.parent
+                / "data"
+                / "evaluation"
+                / "eval_report.json"
+            )
         self.report_path = report_path
         self._latest_report: EvaluationReport | None = None
 
     def run_all(self) -> EvaluationReport:
         """Execute all evaluation suites and generate quality audit report."""
         import uuid
+
         run_id = f"eval_{uuid.uuid4().hex[:10]}"
         logger.info(f"Starting unified AI evaluation run '{run_id}'...")
 

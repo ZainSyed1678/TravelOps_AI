@@ -58,7 +58,9 @@ def test_redis_session_cache_lifecycle():
 def test_preference_extractor_rules():
     """Verify rule-based extraction of traveler habits, seating, and airline loyalty."""
     # 1. Airline loyalty
-    prefs1 = preference_extractor.extract_preferences("I always fly Emirates for international trips")
+    prefs1 = preference_extractor.extract_preferences(
+        "I always fly Emirates for international trips"
+    )
     assert any(p["key"] == "preferred_airline" and p["value"] == "Emirates" for p in prefs1)
 
     # 2. Seating and cabin
@@ -67,7 +69,9 @@ def test_preference_extractor_rules():
     assert any(p["key"] == "cabin_class" and p["value"] == "BUSINESS" for p in prefs2)
 
     # 3. Base home airport & non-stop
-    prefs3 = preference_extractor.extract_preferences("I am based in Mumbai, looking for non-stop flights")
+    prefs3 = preference_extractor.extract_preferences(
+        "I am based in Mumbai, looking for non-stop flights"
+    )
     assert any(p["key"] == "home_airport" and p["value"] == "BOM" for p in prefs3)
     assert any(p["key"] == "prefer_nonstop" and p["value"] == "true" for p in prefs3)
 
@@ -273,7 +277,9 @@ async def test_memory_rest_api_endpoints(db_session: AsyncSession):
 
             # 5. Record manual preference
             pref_update = {"key": "cabin_class", "value": "BUSINESS", "confidence": 1.0}
-            post_pref = await client.post(f"/api/v1/agents/memory/profile/{user_id}", json=pref_update)
+            post_pref = await client.post(
+                f"/api/v1/agents/memory/profile/{user_id}", json=pref_update
+            )
             assert post_pref.status_code == 200
 
             # 6. Delete session

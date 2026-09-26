@@ -184,7 +184,9 @@ class GraphIngestionPipeline:
             {"code": "HTL-BEDS", "name": "Hotelbeds Wholesale", "supplier_type": "HOTEL_BEDS"},
         ]
         for s in suppliers:
-            self.service.upsert_supplier(code=s["code"], name=s["name"], supplier_type=s["supplier_type"])
+            self.service.upsert_supplier(
+                code=s["code"], name=s["name"], supplier_type=s["supplier_type"]
+            )
 
         # Link suppliers to flights
         self.service.link_supplier_flight("EK-NDC", "EK505")

@@ -155,13 +155,21 @@ def test_flight_full_context_traversal(clean_graph_service):
     """Verify multi-hop flight context retrieval traversing nodes and edges."""
     clean_graph_service.upsert_city("Mumbai", "India")
     clean_graph_service.upsert_city("Dubai", "United Arab Emirates")
-    clean_graph_service.upsert_airport(id="BOM", name="Mumbai Airport", city_name="Mumbai", country_name="India")
-    clean_graph_service.upsert_airport(id="DXB", name="Dubai Airport", city_name="Dubai", country_name="United Arab Emirates")
+    clean_graph_service.upsert_airport(
+        id="BOM", name="Mumbai Airport", city_name="Mumbai", country_name="India"
+    )
+    clean_graph_service.upsert_airport(
+        id="DXB", name="Dubai Airport", city_name="Dubai", country_name="United Arab Emirates"
+    )
     clean_graph_service.upsert_airline(id="EK", name="Emirates", country="UAE")
     clean_graph_service.upsert_flight("EK505", "EK", "BOM", "DXB", "10:00", "12:30", 210)
     clean_graph_service.upsert_fare("FARE-EK", "EK-SAVER", "ECONOMY", True, 5000.0, 7000.0, "EK505")
-    clean_graph_service.upsert_policy("POL-EK", "AIRLINE", "EK", "CANCELLATION", "EK Canc Policy", "Content")
-    clean_graph_service.upsert_document("DOC-EK", "EK Doc", "doc.html", "POLICY", policy_id="POL-EK")
+    clean_graph_service.upsert_policy(
+        "POL-EK", "AIRLINE", "EK", "CANCELLATION", "EK Canc Policy", "Content"
+    )
+    clean_graph_service.upsert_document(
+        "DOC-EK", "EK Doc", "doc.html", "POLICY", policy_id="POL-EK"
+    )
 
     ctx = clean_graph_service.get_flight_context("EK505")
     assert ctx is not None
@@ -178,8 +186,12 @@ def test_flight_full_context_traversal(clean_graph_service):
 def test_airline_policies_and_filtering(clean_graph_service):
     """Verify airline policies and policy_type filter."""
     clean_graph_service.upsert_airline(id="AI", name="Air India", country="India")
-    clean_graph_service.upsert_policy("POL-AI-1", "AIRLINE", "AI", "CANCELLATION", "Cancellation Rules", "Rules")
-    clean_graph_service.upsert_policy("POL-AI-2", "AIRLINE", "AI", "BAGGAGE", "Baggage Rules", "Rules")
+    clean_graph_service.upsert_policy(
+        "POL-AI-1", "AIRLINE", "AI", "CANCELLATION", "Cancellation Rules", "Rules"
+    )
+    clean_graph_service.upsert_policy(
+        "POL-AI-2", "AIRLINE", "AI", "BAGGAGE", "Baggage Rules", "Rules"
+    )
 
     all_policies = clean_graph_service.get_airline_policies("AI")
     assert len(all_policies) == 2
@@ -192,7 +204,9 @@ def test_airline_policies_and_filtering(clean_graph_service):
 def test_destination_hotels_traversal(clean_graph_service):
     """Verify destination hotel discovery through Airport -> City <- Hotel."""
     clean_graph_service.upsert_city("Dubai", "UAE")
-    clean_graph_service.upsert_airport(id="DXB", name="Dubai Airport", city_name="Dubai", country_name="UAE")
+    clean_graph_service.upsert_airport(
+        id="DXB", name="Dubai Airport", city_name="Dubai", country_name="UAE"
+    )
     clean_graph_service.upsert_hotel("HTL-1", "Hotel One", "Dubai", "Address 1", 4.5)
     clean_graph_service.upsert_hotel("HTL-2", "Hotel Two", "Dubai", "Address 2", 5.0)
 
@@ -207,12 +221,20 @@ def test_booking_context_traversal(clean_graph_service):
     """Verify booking lineage back to flight, airline, and policies."""
     clean_graph_service.upsert_city("Delhi", "India")
     clean_graph_service.upsert_city("London", "UK")
-    clean_graph_service.upsert_airport(id="DEL", name="Delhi Airport", city_name="Delhi", country_name="India")
-    clean_graph_service.upsert_airport(id="LHR", name="Heathrow", city_name="London", country_name="UK")
+    clean_graph_service.upsert_airport(
+        id="DEL", name="Delhi Airport", city_name="Delhi", country_name="India"
+    )
+    clean_graph_service.upsert_airport(
+        id="LHR", name="Heathrow", city_name="London", country_name="UK"
+    )
     clean_graph_service.upsert_airline(id="BA", name="British Airways", country="UK")
     clean_graph_service.upsert_flight("BA142", "BA", "DEL", "LHR", "03:15", "08:20", 545)
-    clean_graph_service.upsert_policy("POL-BA", "AIRLINE", "BA", "CANCELLATION", "BA Policy", "Content")
-    clean_graph_service.upsert_booking("BK-BA-123", flight_number="BA142", status="CONFIRMED", total_amount=500.0)
+    clean_graph_service.upsert_policy(
+        "POL-BA", "AIRLINE", "BA", "CANCELLATION", "BA Policy", "Content"
+    )
+    clean_graph_service.upsert_booking(
+        "BK-BA-123", flight_number="BA142", status="CONFIRMED", total_amount=500.0
+    )
 
     b_ctx = clean_graph_service.get_booking_context("BK-BA-123")
     assert b_ctx is not None

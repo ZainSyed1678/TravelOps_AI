@@ -17,7 +17,9 @@ def policy_qa_node(state: AgentState) -> dict[str, Any]:
     flight_hint = entities.get("FLIGHT")
     policy_hint = entities.get("POLICY_TYPE")
 
-    logger.info(f"Policy QA node querying GraphRAG: '{query}' (airline={airline_hint}, flight={flight_hint})")
+    logger.info(
+        f"Policy QA node querying GraphRAG: '{query}' (airline={airline_hint}, flight={flight_hint})"
+    )
 
     req = GraphRAGRequest(
         query=query,

@@ -130,7 +130,9 @@ PROVIDER_LATENCY_SECONDS = Histogram(
 # ---------------------------------------------------------------------------
 
 
-def record_http_request(method: str, endpoint: str, status_code: int, duration_seconds: float) -> None:
+def record_http_request(
+    method: str, endpoint: str, status_code: int, duration_seconds: float
+) -> None:
     """Record completed HTTP request metrics."""
     HTTP_REQUESTS_TOTAL.labels(
         method=method,
@@ -187,7 +189,9 @@ def record_fare_anomaly(route: str) -> None:
     ML_ANOMALIES_DETECTED_TOTAL.labels(route=route).inc()
 
 
-def record_provider_call(provider: str, operation: str, status: str, duration_seconds: float) -> None:
+def record_provider_call(
+    provider: str, operation: str, status: str, duration_seconds: float
+) -> None:
     """Record outbound GDS/supplier provider API call."""
     PROVIDER_REQUESTS_TOTAL.labels(
         provider=provider,

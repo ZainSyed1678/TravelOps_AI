@@ -4,7 +4,9 @@ import math
 from collections.abc import Sequence
 
 
-def compute_precision_at_k(retrieved_ids: Sequence[str], relevant_ids: Sequence[str], k: int) -> float:
+def compute_precision_at_k(
+    retrieved_ids: Sequence[str], relevant_ids: Sequence[str], k: int
+) -> float:
     """Compute Precision@K: fraction of top-K retrieved items that are relevant."""
     if k <= 0:
         return 0.0
@@ -78,9 +80,7 @@ def compute_faithfulness(answer: str, retrieved_contexts: Sequence[str]) -> floa
     # Token overlap heuristic measuring factual alignment
     combined_context = " ".join(retrieved_contexts).lower()
     answer_words = [
-        w.strip(".,;:?!()[]\"'")
-        for w in answer.lower().split()
-        if len(w) > 3 and w.isalnum()
+        w.strip(".,;:?!()[]\"'") for w in answer.lower().split() if len(w) > 3 and w.isalnum()
     ]
     if not answer_words:
         return 1.0

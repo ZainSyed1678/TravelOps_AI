@@ -37,7 +37,9 @@ def normalize_path(path: str) -> str:
     cleaned = re.sub(r"usr_[a-zA-Z0-9_-]+", "{user_id}", cleaned)
 
     # Replace parameterized graph paths
-    cleaned = re.sub(r"/api/v1/graph/flight/[A-Za-z0-9]+", "/api/v1/graph/flight/{flight_number}", cleaned)
+    cleaned = re.sub(
+        r"/api/v1/graph/flight/[A-Za-z0-9]+", "/api/v1/graph/flight/{flight_number}", cleaned
+    )
     cleaned = re.sub(
         r"/api/v1/graph/airline/[A-Za-z0-9]+/policies",
         "/api/v1/graph/airline/{airline_code}/policies",
