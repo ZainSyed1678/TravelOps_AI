@@ -74,7 +74,8 @@ services:
     container_name: travelops-backend
     restart: unless-stopped
     env_file:
-      - .env
+      - path: .env
+        required: false
     environment:
       POSTGRES_SERVER: postgres
       REDIS_HOST: redis
