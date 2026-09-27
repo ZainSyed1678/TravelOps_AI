@@ -1,7 +1,15 @@
-"""FastAPI application factory and main entry point for TravelOps AI."""
-
+import sys
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from pathlib import Path
+
+# Ensure root directory and backend directory are in sys.path
+root_dir = Path(__file__).resolve().parents[2]
+backend_dir = Path(__file__).resolve().parents[1]
+for p in [str(root_dir), str(backend_dir)]:
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
 
 from fastapi import FastAPI, Response
 from fastapi.exceptions import RequestValidationError

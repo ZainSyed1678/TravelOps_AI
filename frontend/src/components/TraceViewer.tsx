@@ -8,7 +8,7 @@ interface TraceViewerProps {
 export const TraceViewer = ({ trace, workflow }: TraceViewerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  if (!trace || trace.length === 0) return null;
+  if (!trace || !Array.isArray(trace) || trace.length === 0) return null;
 
   return (
     <div className="mt-3 border border-slate-800 rounded-lg overflow-hidden bg-slate-950/60">

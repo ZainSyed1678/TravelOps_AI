@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar';
 import { ChatConsole } from './components/ChatConsole';
 import { HITLQueueView } from './components/HITLQueueView';
 import { DiagnosticsView } from './components/DiagnosticsView';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'chat' | 'hitl' | 'diagnostics'>('chat');
@@ -35,9 +36,11 @@ export default function App() {
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
-        {activeTab === 'chat' && <ChatConsole />}
-        {activeTab === 'hitl' && <HITLQueueView />}
-        {activeTab === 'diagnostics' && <DiagnosticsView />}
+        <ErrorBoundary>
+          {activeTab === 'chat' && <ChatConsole />}
+          {activeTab === 'hitl' && <HITLQueueView />}
+          {activeTab === 'diagnostics' && <DiagnosticsView />}
+        </ErrorBoundary>
       </main>
     </div>
   );
