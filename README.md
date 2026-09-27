@@ -79,33 +79,7 @@ flowchart TD
 
 ---
 
-## 4. Phase-by-Phase Roadmap
-
-- [x] **Phase 0 — Project Foundation** (Repository, Docker Compose, CI tooling, Health/Ready/Version probes)
-- [x] **Phase 1 — Travel Data Model** (PostgreSQL schema, SQLAlchemy 2.0 models, Alembic migrations, Repositories)
-- [x] **Phase 2 — Provider Abstraction** (Flight/Hotel/Booking provider interfaces, Mocks, Amadeus adapter, Error normalization)
-- [x] **Phase 3 — Travel Data Ingestion** (Idempotent multi-format pipeline for PDF, HTML, JSON, CSV, API; SHA-256 provenance)
-- [x] **Phase 4 — Production RAG** (Structure-aware chunking, embeddings, Qdrant hybrid retrieval, reranking, citations, POST /rag/query)
-- [x] **Phase 5 — Neo4j Knowledge Graph** (12 entity types, schema constraints, multi-hop Cypher traversals, in-memory graph fallback, API endpoints, CLI sync runner)
-- [x] **Phase 6 — GraphRAG** (Entity extraction, Knowledge Graph subgraph traversal, Qdrant vector fusion, grounded generation, POST /graphrag/query)
-- [x] **Phase 7 — Travel ML** (Gradient Boosted flight ranker, feature attribution explainability, route fare anomaly detection, POST /ml/rank-flights, POST /ml/fare-anomaly)
-- [x] **Phase 8 — Agentic AI** (LangGraph multi-agent state machine across Search, Policy QA, Disruption Rebooking, and Hotel discovery)
-- [x] **Phase 9 — Human-in-the-Loop** (Strict confirmation checkpoints for booking/cancellation/rebooking)
-- [x] **Phase 10 — Agent Memory** (PostgreSQL persistent memory + Redis short-term session cache)
-- [x] **Phase 11 — Evaluation System** (RAG precision@k, MRR, ranking NDCG@k, and agent safety compliance benchmarks)
-- [x] **Phase 12 — Observability** (Prometheus custom metrics & Grafana dashboard provisioning)
-- [x] **Phase 13 — Caching Layer** (Redis caching with TTL and invalidation policies)
-- [x] **Phase 14 — Frontend Console** (React assistant, multi-agent execution traces, ranked offer cards, grounded citations, HITL safety queue & modal)
-- [x] **Phase 15 — Production API** (OpenAPI 3.1, RFC 7807 problem details, correlation ID propagation, sliding-window rate limiting, flights/bookings/system endpoints)
-- [x] **Phase 16 — Security** (Prompt injection defenses, tool sandboxing, audit trails, defensive headers, SQLi/XSS filtering)
-- [ ] **Phase 17 — Automated Testing** (Unit, integration, and E2E agent scenario test suite)
-- [ ] **Phase 18 — CI/CD Pipeline** (GitHub Actions automated test, lint, and build verification)
-- [ ] **Phase 19 — Production Documentation** (Complete architecture specifications and runbooks)
-- [ ] **Phase 20 — Final Integration & Verification** (Comprehensive end-to-end journey tests)
-
----
-
-## 5. Getting Started (Phase 0)
+## 4. Getting Started
 
 ### Prerequisites
 - Python 3.11+
@@ -419,30 +393,16 @@ flowchart TD
       ```bash
       pytest backend/tests/test_e2e_scenarios.py -v
       ```
-    - Execute the full platform test suite (166 tests passing across all 17 phases):
+    - Execute the full platform test suite (166 tests passing across all platform modules):
       ```bash
       pytest backend/tests -v
       ```
+    - Execute the full local verification pipeline (lint, tests, benchmarks, typecheck):
+      ```bash
+      python scripts/verify_ci.py
+      ```
 
-18. **CI/CD Pipeline & Release Automation (`.github/workflows/`):**
-    - **Continuous Integration Workflow (`.github/workflows/ci.yml`)**:
-      - `lint`: Automated Ruff linting and formatting validation on Python 3.11.
-      - `backend-test`: Matrix test execution across Python 3.11 and 3.12, running all 166 unit, integration, and E2E tests with pytest-cov code coverage report artifact generation.
-      - `ai-eval-benchmarks`: Strict quality gate executing `scripts/run_evaluations.py --strict`, enforcing RAG precision/faithfulness, NDCG flight ranking, intent classification accuracy, and 100% HITL safety compliance.
-      - `frontend-build`: Node.js 20.x environment running TypeScript typechecking and Vite production asset bundling.
-      - `docker-validation`: Multi-stage Dockerfile build validation for backend and frontend images, plus Docker Compose syntax validation.
-    - **Continuous Delivery Workflow (`.github/workflows/cd.yml`)**:
-      - Triggered on semantic version tags (`v*.*.*`) and manual dispatch.
-      - Builds multi-arch OCI containers (`linux/amd64`, `linux/arm64`) with GitHub Container Registry (GHCR) integration.
-      - Staging deployment with automated health check verification.
-      - Production release gate with blue/green deployment orchestration.
-    - **Local CI Verification Script (`scripts/verify_ci.py`)**:
-      - Replicates the complete CI pipeline locally before committing to git:
-        ```bash
-        python scripts/verify_ci.py
-        ```
-
-19. **Production Documentation & Operational Runbooks (`docs/`):**
+18. **Production Documentation & Operational Runbooks (`docs/`):**
     - **System Architecture Specification (`docs/ARCHITECTURE.md`)**: Comprehensive system architecture, multi-tier data flow diagram, subsystem boundaries, and horizontal scaling / HA strategies.
     - **Architectural Decision Records (`docs/ADR/`)**:
       - `0001-hybrid-rag-graphrag-fusion.md`: Dense vector (Qdrant) + Knowledge Graph (Neo4j) fusion rationale.
@@ -453,7 +413,7 @@ flowchart TD
     - **Production Operations Runbook (`docs/OPERATIONS_RUNBOOK.md`)**: Service port matrix, deployment SOPs, database migrations, backup/recovery, and incident response playbooks for datastore degradation, HITL queue backlogs, and adversarial attacks.
     - **API Reference Specification (`docs/API_REFERENCE.md`)**: Complete REST catalog across Gateway Probes, Agents, Memory, HITL, GraphRAG, ML, Cache, and Security.
 
-20. **Final Integration & Platform Demonstration (`scripts/demo_system.py`):**
+19. **Final Integration & Platform Demonstration (`scripts/demo_system.py`):**
     - **End-to-End Platform Demonstration Runner**:
       - Showcases all 10 core TravelOps AI subsystems in an interactive console workflow:
         1. Gateway Health & System Capability Probes (`/health`, `/ready`, `/api/v1/system/info`)

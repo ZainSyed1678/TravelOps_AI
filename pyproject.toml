@@ -105,3 +105,8 @@ testpaths = ["backend/tests"]
 python_files = ["test_*.py"]
 pythonpath = ["backend", "."]
 asyncio_mode = "auto"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["backend*"]
+
